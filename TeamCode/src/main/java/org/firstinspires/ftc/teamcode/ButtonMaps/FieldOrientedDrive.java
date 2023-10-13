@@ -19,7 +19,7 @@ public class FieldOrientedDrive {
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotate), 1);
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotate), maxMotorPower);
         double frontLeftPower = (rotY + rotX + rotate) / denominator;
         double backLeftPower = (rotY - rotX + rotate) / denominator;
         double frontRightPower = (rotY - rotX - rotate) / denominator;
