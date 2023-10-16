@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.ButtonMaps.MotorPowers;
 import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.PoseMessage;
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
@@ -222,6 +223,25 @@ public class MecanumDrive {
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose, OpMode opMode){
         this(hardwareMap, pose);
         this.opMode = opMode;
+    }
+
+    public void setMotorPowers(MotorPowers mp){
+        setMotorPower(mp.leftFront, mp.rightFront, mp.leftBack, mp.rightBack);
+    }
+
+    public void setAllMotorPowers(double power){
+        setMotorPower(power, power, power, power);
+    }
+
+    public MotorPowers pivotTurn(double power, boolean rightBumper, boolean leftBumper) {
+        power = power*0.5;
+        double mult = 0.3;
+        if(leftBumper) {
+            return new MotorPowers(power, -power*mult, power, -power * mult);
+        } else if(rightBumper) {
+            return new MotorPowers(-power, power*mult, -power, power * mult);
+        }
+        return new MotorPowers(0,0,0,0);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
