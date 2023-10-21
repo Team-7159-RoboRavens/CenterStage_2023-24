@@ -9,7 +9,6 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
     private final double fastStrafePower = 0.75;
     private final double slowStrafePower = 0.35;
 
-    private boolean buttonPressed = false;
     private boolean combineWithPivotTurn = false;
 
     private double currentStrafeMotorPower;
@@ -18,7 +17,7 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
 
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
-        buttonPressed = false;
+        //Set mp to zero at the start, if no buttons are pressed it will never change
         mp = new MotorPowers(0);
 
         //Brake button (bypasses everything)
@@ -38,7 +37,6 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
         //Field Oriented Drive (joysticks), 4th priority
         MotorPowers fodMotorPowers = FieldOrientedDrive.fieldOrientedDrive(opMode.gamepad1, robot.imu, fastStrafePower);
         if(fodMotorPowers.isNotZero()){
-//            buttonPressed = true;
             mp = fodMotorPowers;
         }
 
@@ -53,7 +51,6 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
             triggerMotorPowers = new MotorPowers(-opMode.gamepad1.left_trigger*triggerMultipler);
         }
         if(triggerMotorPowers.isNotZero() || pivotTurnMotorPowers.isNotZero()){
-//            buttonPressed = true;
             triggerMotorPowers.combineWith(pivotTurnMotorPowers);
             mp = triggerMotorPowers;
         }
@@ -61,12 +58,10 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
         //Dedicated diagonal buttons & pivot turn, 2nd priority
         if(opMode.gamepad1.x){
             //Up+Left
-//            buttonPressed = true;
             mp = new MotorPowers(0,currentStrafeMotorPower,currentStrafeMotorPower,0);
             mp.combineWith(pivotTurnMotorPowers);
         }else if(opMode.gamepad1.b){
             //Up+Right
-//            buttonPressed = true;
             mp = new MotorPowers(currentStrafeMotorPower, 0, 0, currentStrafeMotorPower);
             mp.combineWith(pivotTurnMotorPowers);
         }
@@ -74,14 +69,11 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
         //DPads OctoStrafe and Pivot Turn, 1st priority
         MotorPowers dpadMotorPowers = DPadControl.dpadStrafe(opMode.gamepad1, currentStrafeMotorPower);
         if(dpadMotorPowers.isNotZero()){
-//            buttonPressed = true;
             mp = dpadMotorPowers;
             mp.combineWith(pivotTurnMotorPowers);
         }
-        
-//        if(!buttonPressed){
-//            mp = new MotorPowers(0);
-//        }
+
+        //Actually apply the power
         robot.setMotorPowers(mp);
     }
 }
