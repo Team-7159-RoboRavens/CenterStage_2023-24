@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode.ButtonMaps;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
-
+@Config
 public class EitanNadavDriveBM extends AbstractButtonMap{
-
-    private final double triggerMultipler = 0.9;
-    private final double fastStrafePower = 0.75;
-    private final double slowStrafePower = 0.35;
+    //TODO: Change back to final when done with dash
+    public static double triggerMultipler = 0.9;
+    public static double fastStrafePower = 0.65;
+    public static double slowStrafePower = 0.35;
 
     private boolean combineWithPivotTurn = false;
 
@@ -19,6 +22,12 @@ public class EitanNadavDriveBM extends AbstractButtonMap{
     public void loop(CenterStageRobot robot, OpMode opMode) {
         //Set mp to zero at the start, if no buttons are pressed it will never change
         mp = new MotorPowers(0);
+
+        //Reset Yaw for FOD
+        if(opMode.gamepad1.back){
+            robot.imu.resetYaw();
+        }
+//        opMode.telemetry.addData("Robot Yaw", robot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 
         //Brake button (bypasses everything)
         if(opMode.gamepad1.a){

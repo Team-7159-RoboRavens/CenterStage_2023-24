@@ -20,10 +20,10 @@ public class FieldOrientedDrive {
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotate), 1);
-        double frontLeftPower = (rotY + rotX + rotate) / denominator;
-        double backLeftPower = (rotY - rotX + rotate) / denominator;
-        double frontRightPower = (rotY - rotX - rotate) / denominator;
-        double backRightPower = (rotY + rotX - rotate) / denominator;
+        double frontLeftPower = maxMotorPower*((rotY + rotX + rotate) / denominator);
+        double backLeftPower = maxMotorPower*((rotY - rotX + rotate) / denominator);
+        double frontRightPower = maxMotorPower*((rotY - rotX - rotate) / denominator);
+        double backRightPower = maxMotorPower*((rotY + rotX - rotate) / denominator);
         return new MotorPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
     }
 }

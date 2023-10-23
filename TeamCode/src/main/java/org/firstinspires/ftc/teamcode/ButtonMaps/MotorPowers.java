@@ -27,6 +27,13 @@ public class MotorPowers {
         this.rightBack = rightBack;
     }
 
+    public void setMotorPowers(double allPower){
+        this.leftFront = allPower;
+        this.rightFront = allPower;
+        this.leftBack = allPower;
+        this.rightBack = allPower;
+    }
+
     public void combineWith(MotorPowers other){
         double leftFrontMax = Math.max(Math.abs(this.leftFront + other.leftFront), 1);
         double rightFrontMax = Math.max(Math.abs(this.rightFront + other.rightFront), 1);
