@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
+@Autonomous(name="Red - Frontstage")
 public class AutoRedFront extends LinearOpMode {
     /* CONFIG */
     private final boolean goUnderLeftTruss = false;
@@ -105,7 +107,8 @@ public class AutoRedFront extends LinearOpMode {
                             .strafeTo(new Vector2d(-12,-60))
                             .waitSeconds(delayAtTrussSeconds)
                             //TODO: raise slides after leaving truss
-                            .splineTo(new Vector2d(48, -36),0)
+                            .strafeTo(new Vector2d(48, -60))
+                            .strafeTo(new Vector2d(48, -36))
                             .build());
         }
 
