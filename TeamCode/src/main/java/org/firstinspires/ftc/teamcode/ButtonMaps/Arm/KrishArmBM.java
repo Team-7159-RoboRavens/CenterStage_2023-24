@@ -12,19 +12,13 @@ public class KrishArmBM extends AbstractButtonMap {
     public static double linearSlidesDownMultiplier = 0.35;
     public static double linearSlidesUpMultiplier = 0.5;
     public static double holdModePower = 0.04;
-    public static double intakeMotorPower = 0.5;
 
     private boolean holdMode = false;
     private boolean outputServo = false;
-    private boolean outputServoMoving = false;
-    private boolean intakeEnabled = false;
-    private boolean intakeReversed = false;
+
     private ElapsedTime et = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private double lsToggleTime = 0;
     private double servoToggleTime = 0;
-    private double servoCycleTime = 0;
-    private double intakeToggleTime = 0;
-    private double intakeReverseToggleTime = 0;
 
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
@@ -63,40 +57,12 @@ public class KrishArmBM extends AbstractButtonMap {
         opMode.telemetry.addData("LS Hold Mode", holdMode);
 
         //Output Servo
-        if(opMode.gamepad2.x && et.time()-servoToggleTime > robot.outputServoCycleTime+100){
-            if(outputServo) robot.outputServo.setPower(1);
-            else robot.outputServo.setPower(-1);
+        if(opMode.gamepad2.x && et.time()-servoToggleTime > 300){
+            if(outputServo) robot.clawServo.setPosition(1);
+            else robot.clawServo.setPosition(0);
             outputServo = !outputServo;
             servoToggleTime = et.time();
-            servoCycleTime = et.time();
-            outputServoMoving = true;
         }
-        if(outputServoMoving && et.time()-servoCycleTime > robot.outputServoCycleTime){
-            robot.outputServo.setPower(0);
-            outputServoMoving = false;
-        }
-
-        //Intake Toggle (right bumper)
-        if(opMode.gamepad2.right_bumper && et.time()-intakeToggleTime > 300){
-            if(intakeEnabled){
-                robot.intakeMotor.setPower(0);
-            }
-            else {
-                if(intakeReversed){
-                    robot.intakeMotor.setPower(-intakeMotorPower);
-                }else{
-                    robot.intakeMotor.setPower(intakeMotorPower);
-                }
-            }
-            intakeEnabled = !intakeEnabled;
-            intakeToggleTime = et.time();
-        }
-        //Intake Reverse toggle (B)
-        if (opMode.gamepad2.b && et.time()-intakeReverseToggleTime > 500) {
-            intakeReversed = !intakeReversed;
-            intakeReverseToggleTime = et.time();
-        }
-        opMode.telemetry.addData("Intake Reverse", intakeReversed);
 
         //Plane Servo
         //TODO: find position

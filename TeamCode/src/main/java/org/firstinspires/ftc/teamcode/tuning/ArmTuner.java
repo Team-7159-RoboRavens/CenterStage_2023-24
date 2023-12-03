@@ -21,34 +21,42 @@ public class ArmTuner extends OpMode {
 
     @Override
     public void loop() {
-        if(et.time()-servoTime > 100){
-            if(gamepad1.a){
-                robot.outputServo.setPower(1);
+        if(et.time()-servoTime > 150){
+            if(gamepad1.x){
+                robot.clawServo.setPosition(robot.clawServo.getPosition() + 0.05);
                 servoTime = et.time();
             }else if(gamepad1.b){
-                robot.outputServo.setPower(-1);
+                robot.clawServo.setPosition(robot.clawServo.getPosition() - 0.05);
                 servoTime = et.time();
-            }else{
-                robot.outputServo.setPower(-1);
             }
-            if(gamepad1.x){
-                robot.airplaneServo.setPosition(robot.airplaneServo.getPosition()+0.05);
+            if(gamepad1.y){
+                robot.wristServo.setPosition(robot.wristServo.getPosition()+0.05);
                 servoTime = et.time();
-            } else if (gamepad1.y) {
-                robot.airplaneServo.setPosition(robot.airplaneServo.getPosition()-0.05);
+            } else if (gamepad1.a) {
+                robot.wristServo.setPosition(robot.wristServo.getPosition()-0.05);
+                servoTime = et.time();
+            }
+            if(gamepad1.dpad_up){
+                robot.elbowServo.setPosition(robot.elbowServo.getPosition()+0.05);
+                servoTime = et.time();
+            } else if (gamepad1.dpad_down) {
+                robot.elbowServo.setPosition(robot.elbowServo.getPosition()-0.05);
+                servoTime = et.time();
+            }
+            if(gamepad1.left_bumper){
+                robot.garageDoorServo.setPosition(robot.garageDoorServo.getPosition()+0.05);
+                servoTime = et.time();
+            } else if (gamepad1.right_bumper) {
+                robot.garageDoorServo.setPosition(robot.garageDoorServo.getPosition()-0.05);
                 servoTime = et.time();
             }
         }
-        if(gamepad1.dpad_up){
-            robot.intakeMotor.setPower(1);
-        }else if(gamepad1.dpad_down){
-            robot.intakeMotor.setPower(-1);
-        }else{
-            robot.intakeMotor.setPower(0);
-        }
-        telemetry.addData("Intake Power", -gamepad1.left_stick_y);
-//        telemetry.addData("Output Servo Pos", robot.outputServo.getPosition());
-        telemetry.addData("Airplane Servo Pos", robot.airplaneServo.getPosition());
+
+        telemetry.addLine("Test Controls and Positions (GP1):");
+        telemetry.addData("Claw Servo (X=inc, B=dec)", robot.clawServo.getPosition());
+        telemetry.addData("Wrist Servo (Y=inc, A=dec)", robot.wristServo.getPosition());
+        telemetry.addData("Elbow Servo (DPup=inc, DPdn=dec)", robot.elbowServo.getPosition());
+        telemetry.addData("Garage Door Servo (LB=inc, RB=dec)", robot.elbowServo.getPosition());
         telemetry.update();
     }
 }

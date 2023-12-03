@@ -11,30 +11,24 @@ import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
 public class AndrewArmBM extends AbstractButtonMap {
     public static double slideUpPower = 0.5;
     public static double slideDownPower = 0.35;
-    public static double intakePower = 0.35;
     public static double holdPower = 0.04;
-    public static double outputRetractTime = 1000;
 
     //TODO: Magic Numbers!!!
     private ElapsedTime et = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    private double intakeOutTime = 0;
-    private boolean intakeOut = false;
-    private boolean intakeInTransit = false;
 
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
         /*
             Button Map
-            Y - Extend the Linear Slides
-            A - Detract the Linear Slides
-            B - Release Pixel(Maybe recoil as well
-            D-Pad - Release airplane (single press)
-            Right Bumper - Intake inward (takes in the pixel) (hold)
-            Left Bumper - Intake outward (spits out the pixel, if in case we need to) (hold)
+            Y - Extend the Linear Slides (DONE)
+            A - Detract the Linear Slides (DONE)
+            B - Release Pixel (Maybe close as well)
+            D-Pad - Release airplane (single press) (DONE)
+
          */
 
         /* Linear Slides */
-        if (opMode.gamepad2.y) {
+        if (opMode.gamepad2.a) {
             if (robot.linearSlidesMotor1.getCurrentPosition() < -5 || robot.linearSlidesMotor2.getCurrentPosition() < -5) {
                 opMode.telemetry.addData("LS Direction", "INHIBIT DOWN");
                 robot.linearSlidesMotor1.setPower(0);
@@ -44,7 +38,7 @@ public class AndrewArmBM extends AbstractButtonMap {
                 robot.linearSlidesMotor1.setPower(-slideDownPower);
                 robot.linearSlidesMotor2.setPower(-slideDownPower);
             }
-        } else if (opMode.gamepad2.a) {
+        } else if (opMode.gamepad2.y) {
             opMode.telemetry.addData("LS Direction", "UP");
             robot.linearSlidesMotor1.setPower(slideUpPower);
             robot.linearSlidesMotor2.setPower(slideUpPower);
@@ -55,33 +49,6 @@ public class AndrewArmBM extends AbstractButtonMap {
             robot.linearSlidesMotor2.setPower(holdPower);
         }
 
-        //Eject Pixel - B
-        if (!intakeInTransit && opMode.gamepad2.b) {
-            robot.outputServo.setPower(1);
-            intakeOut = true;
-            intakeInTransit = true;
-            intakeOutTime = et.time();
-        }
-        //Automatically retract when it reaches out position
-        if (intakeInTransit && et.time()-intakeOutTime > robot.outputServoCycleTime) {
-            if(intakeOut){
-                robot.outputServo.setPower(-1);
-                intakeOut = false;
-                intakeOutTime = et.time();
-            }else{
-                robot.outputServo.setPower(0);
-                intakeInTransit = false;
-            }
-        }
-
-        //Intake Inward/Forward (RB) + Outward/Reverse (LB)
-        if(opMode.gamepad2.right_bumper){
-            robot.intakeMotor.setPower(intakePower);
-        }else if(opMode.gamepad2.left_bumper) {
-            robot.intakeMotor.setPower(-intakePower);
-        }else{
-            robot.intakeMotor.setPower(0);
-        }
 
         //Plane Servo (dpad)
         //TODO: find position
