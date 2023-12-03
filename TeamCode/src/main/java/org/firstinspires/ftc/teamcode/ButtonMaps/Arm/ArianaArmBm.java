@@ -10,12 +10,10 @@ public class ArianaArmBm extends AbstractButtonMap {
     public static double intakePower = 0.5;
     public static double linearSlidesDownMultiplier = 0.35;
     public static double linearSlidesUpMultiplier = 0.5;
-    public static double outputRetractTime = 1000;
 
     private ElapsedTime et = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private double intakeOutTime = 0;
-    private boolean intakeOut = false;
-    private boolean intakeInTransit = false;
+
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
         //Linear Slides (on triggers)
@@ -40,33 +38,6 @@ public class ArianaArmBm extends AbstractButtonMap {
             robot.linearSlidesMotor2.setPower(0);
         }
 
-        //Eject Pixel - right bumper
-        if (!intakeInTransit && opMode.gamepad2.right_bumper) {
-             robot.outputServo.setPower(1);
-             intakeOut = true;
-             intakeInTransit = true;
-             intakeOutTime = et.time();
-        }
-        //Automatically retract when it reaches out position
-        if (intakeInTransit && et.time()-intakeOutTime > robot.outputServoCycleTime) {
-            if(intakeOut){
-                robot.outputServo.setPower(-1);
-                intakeOut = false;
-                intakeOutTime = et.time();
-            }else{
-                robot.outputServo.setPower(0);
-                intakeInTransit = false;
-            }
-        }
-
-        if (opMode.gamepad2.b) {
-            robot.intakeMotor.setPower(intakePower);
-        } else if (opMode.gamepad2.x) {
-            robot.intakeMotor.setPower(-intakePower);
-        }else {
-            robot.intakeMotor.setPower(0);
-        }
-        
         if (opMode.gamepad2.y) {
             robot.airplaneServo.setPosition(0);
         }

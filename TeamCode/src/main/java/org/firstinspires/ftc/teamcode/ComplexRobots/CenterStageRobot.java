@@ -5,7 +5,6 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,14 +17,16 @@ public class CenterStageRobot extends MecanumDrive {
     public final DcMotorEx linearSlidesMotor1;
     public final DcMotorEx linearSlidesMotor2;
 
-    public final DcMotorEx intakeMotor;
+    //Servos
+    public final Servo clawServo;
+    public final Servo wristServo;
+    public final Servo elbowServo;
 
-    public final CRServo outputServo;
-    public static double outputServoCycleTime = 800;
+    public final Servo garageDoorServo;
     public final Servo airplaneServo;
 
-
-    //Sensors
+    //Constants
+    public final int slidesRaisePosition = 500;
 
     //Constructor
     public CenterStageRobot(HardwareMap hardwareMap, Pose2d pose, OpMode opMode) {
@@ -45,19 +46,36 @@ public class CenterStageRobot extends MecanumDrive {
         linearSlidesMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Initialize Output Servo
-        outputServo = hardwareMap.get(CRServo.class, "outputServo");
-//        //TODO: find numbers
-//        outputServo.scaleRange(0,1);
-//        //Force to be in the right place
-//        //TODO: find number
-//        outputServo.setPosition(0);
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        //TODO: find numbers
+        clawServo.scaleRange(0,1);
+        //Force to be in the right place
+        //TODO: find number
+        clawServo.setPosition(0.5);
 
-        //Initialize Intake Motor
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
-        //Setup
-        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //Initialize Wrist Servo
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
+        //TODO: find numbers
+        wristServo.scaleRange(0,1);
+        //Force to be in the right place
+        //TODO: find number
+        wristServo.setPosition(0.5);
+
+        //Initialize Elbow Servo
+        elbowServo = hardwareMap.get(Servo.class, "elbowServo");
+        //TODO: find numbers
+        elbowServo.scaleRange(0,1);
+        //Force to be in the right place
+        //TODO: find number
+        elbowServo.setPosition(0.5);
+
+        //Initialize Garage Door Servo
+        garageDoorServo = hardwareMap.get(Servo.class, "garageDoorServo");
+        //TODO: find numbers
+        garageDoorServo.scaleRange(0,1);
+        //Force to be in the right place
+        //TODO: find number
+        garageDoorServo.setPosition(0.5);
 
         //Initialize Airplane Servo
         airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
