@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.ComplexRobots;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -40,6 +44,8 @@ public class CenterStageRobot extends MecanumDrive {
         linearSlidesMotor2.setDirection(DcMotor.Direction.FORWARD);
         linearSlidesMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlidesMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlidesMotor1.setTargetPositionTolerance(5);
+        linearSlidesMotor2.setTargetPositionTolerance(5);
         linearSlidesMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlidesMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -84,10 +90,35 @@ public class CenterStageRobot extends MecanumDrive {
         //Force to be in the right place
         //TODO: find number
         airplaneServo.setPosition(1);
-
-
-        //TODO: Linear slide helper methods for auto (later)
     }
 
+    //TODO: Linear slide helper methods for auto (later)
+    public Action setSlideHeightAction(int targetPosition){
+        return new SlideHeight(targetPosition);
+    }
 
+    class SlideHeight implements Action {
+        private boolean initialized;
+        private int targetPosition;
+        SlideHeight(int targetPosition){
+            initialized = false;
+            this.targetPosition = targetPosition;
+        }
+
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(!initialized){
+                linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                linearSlidesMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                linearSlidesMotor1.setTargetPosition(this.targetPosition);
+                linearSlidesMotor2.setTargetPosition(this.targetPosition);
+                linearSlidesMotor1.setPower(0.5);
+                linearSlidesMotor1.setPower(0.5);
+                initialized = true;
+                return false;
+            }
+            return linearSlidesMotor1.isBusy();
+        }
+    }
 }
