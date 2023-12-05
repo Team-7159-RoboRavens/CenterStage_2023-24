@@ -59,5 +59,11 @@ public class AutoBlueBack extends LinearOpMode {
                     .build());
         //TODO: place pixel down
 
+        //Park in blue backstage
+        Actions.runBlocking(
+            robot.actionBuilder(robot.pose)
+                .lineToY(12)
+                .build()
+        );
     }
 }
