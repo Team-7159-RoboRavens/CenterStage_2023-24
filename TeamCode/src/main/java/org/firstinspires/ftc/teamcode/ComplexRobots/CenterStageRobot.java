@@ -116,7 +116,7 @@ public class CenterStageRobot extends MecanumDrive {
                 linearSlidesMotor1.setPower(0.5);
                 linearSlidesMotor1.setPower(0.5);
                 initialized = true;
-                return false;
+                return true;
             }
             return linearSlidesMotor1.isBusy();
         }
