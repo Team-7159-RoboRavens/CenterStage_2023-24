@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.ButtonMaps.AbstractButtonMap;
-import org.firstinspires.ftc.teamcode.ButtonMaps.Arm.KrishArmBM;
+import org.firstinspires.ftc.teamcode.ButtonMaps.Arm.THEArmBM;
 import org.firstinspires.ftc.teamcode.ButtonMaps.Drive.KrishDriveBM;
 import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
 
@@ -24,7 +24,7 @@ public class BMTestTeleop2 extends OpMode {
         telemetry.update();
         robot = new CenterStageRobot(hardwareMap, new Pose2d(0,0,0), this);
         buttonMap = new KrishDriveBM();
-        slidesButtonMap = new KrishArmBM();
+        slidesButtonMap = new THEArmBM();
         telemetry.addLine("Ready.");
         telemetry.update();
     }
