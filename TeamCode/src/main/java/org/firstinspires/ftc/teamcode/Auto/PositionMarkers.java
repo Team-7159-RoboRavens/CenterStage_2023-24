@@ -20,7 +20,7 @@ public class PositionMarkers implements VisionProcessor {
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
         //LEFT
-        Imgproc.line(frame, new Point(35, 0), new Point(25,height), new Scalar(,0,0), 3);
+        Imgproc.line(frame, new Point(35, 0), new Point(25,height), new Scalar(255,0,0), 3);
         Imgproc.line(frame, new Point(65, 0), new Point(30,height), new Scalar(255,0,0), 3);
         //CENTER
         Imgproc.line(frame, new Point(320, 0), new Point(200,height), new Scalar(255,0,0), 3);
