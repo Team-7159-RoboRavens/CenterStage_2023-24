@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -53,8 +54,18 @@ public class AutoRedFront extends LinearOpMode {
             for (Recognition recognition : currentRecognitions) {
                 double x = (recognition.getLeft() + recognition.getRight()) / 2;
                 double y = (recognition.getTop() + recognition.getBottom()) / 2;
-                //TODO: Find binding area for the 3 placements
-
+                if(recognition.getLabel().equals("Pixel")){
+                    if(x > CenterStageRobot.leftPlacementLowerBound && x < CenterStageRobot.leftPlacementUpperBound){
+                        //LEFT
+                        placementPosition = 1;
+                    }else if(x > CenterStageRobot.centerPlacementLowerBound && x < CenterStageRobot.centerPlacementUpperBound){
+                        //CENTER
+                        placementPosition = 2;
+                    }else if(x > CenterStageRobot.rightPlacementLowerBound && x < CenterStageRobot.rightPlacementUpperBound){
+                        //RIGHT
+                        placementPosition = 3;
+                    }
+                }
             }
             telemetry.addData("Placement Position", placementPosition);
             telemetry.update();
@@ -96,8 +107,8 @@ public class AutoRedFront extends LinearOpMode {
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(-12,-36), 0)
                             .waitSeconds(delayAtTrussSeconds)
-                            //TODO: raise slides after leaving truss
                             .strafeTo(new Vector2d(48, -36))
+                            .afterDisp(48, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }else{
             //Under the Right Truss
@@ -106,8 +117,8 @@ public class AutoRedFront extends LinearOpMode {
                             .splineTo(new Vector2d(-24,-60), Math.PI/2)
                             .strafeTo(new Vector2d(-12,-60))
                             .waitSeconds(delayAtTrussSeconds)
-                            //TODO: raise slides after leaving truss
                             .strafeTo(new Vector2d(48, -60))
+                            .afterDisp(64, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .strafeTo(new Vector2d(48, -36))
                             .build());
         }
@@ -134,19 +145,23 @@ public class AutoRedFront extends LinearOpMode {
         }
 
         /* PARK */
-        //TODO: lower slides
+        //TODO: reset the positions of the servos
         if(parkLeft){
             //Park on Left Side
-            Actions.runBlocking(
+            Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(48, -12))
-                            .build());
+                            .build(),
+                    robot.setSlideHeightAction(0)
+            ));
         }else{
             //Park on Right Side
-            Actions.runBlocking(
+            Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(48, -60))
-                            .build());
+                            .build(),
+                    robot.setSlideHeightAction(0)
+            ));
         }
     }
 }

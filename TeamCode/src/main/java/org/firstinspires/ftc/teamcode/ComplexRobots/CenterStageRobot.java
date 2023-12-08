@@ -30,7 +30,15 @@ public class CenterStageRobot extends MecanumDrive {
     public final Servo airplaneServo;
 
     //Constants
-    public final int slidesRaisePosition = 500;
+    public static int slidesRaisePosition = 500;
+
+    //Camera Positions
+    public static int leftPlacementLowerBound = 35;
+    public static int leftPlacementUpperBound = 65;
+    public static int centerPlacementLowerBound = 320;
+    public static int centerPlacementUpperBound = 350;
+    public static int rightPlacementLowerBound = 500;
+    public static int rightPlacementUpperBound = 520;
 
     //Constructor
     public CenterStageRobot(HardwareMap hardwareMap, Pose2d pose, OpMode opMode) {
