@@ -35,7 +35,7 @@ public class AutoBlueFront extends LinearOpMode {
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,60),3*Math.PI/2), this);
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,60),Math.PI/2), this);
         tfod = TfodProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
@@ -74,7 +74,7 @@ public class AutoBlueFront extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36,36))
+                            .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
                             .strafeTo(new Vector2d(-24, 36))
                             .build());
             //TODO: place the pixel down
@@ -82,14 +82,14 @@ public class AutoBlueFront extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, 24))
+                            .strafeToLinearHeading(new Vector2d(-36, 24), 3*Math.PI/2)
                             .build());
             //TODO: place the pixel down
         }else if(placementPosition == 3){
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36,36))
+                            .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
                             .strafeTo(new Vector2d(-48, 36))
                             .build());
             //TODO: place the pixel down
