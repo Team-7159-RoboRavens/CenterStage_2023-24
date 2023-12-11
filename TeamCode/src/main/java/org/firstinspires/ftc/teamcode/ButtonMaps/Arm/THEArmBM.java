@@ -60,8 +60,8 @@ public class THEArmBM extends AbstractButtonMap {
         //RB - Claw Toggle
         //TODO: find positions
         if(opMode.gamepad2.right_bumper && et.time()-clawServoToggleTime > 300){
-            if(clawOpen) robot.clawServo.setPosition(1);
-            else robot.clawServo.setPosition(0);
+            if(clawOpen) robot.clawServo.setPosition(0);
+            else robot.clawServo.setPosition(1);
             clawOpen = !clawOpen;
             clawServoToggleTime = et.time();
         }
@@ -79,11 +79,11 @@ public class THEArmBM extends AbstractButtonMap {
         //TODO: find +/-
         if(opMode.gamepad2.x && et.time()-elbowServoMoveTime > 35){
             //X - Elbow Toward Intake
-            robot.elbowServo.setPosition(robot.elbowServo.getPosition() - 0.05);
+            robot.elbowServo.setPosition(robot.elbowServo.getPosition() + 0.05);
             elbowServoMoveTime = et.time();
         }else if(opMode.gamepad2.y && et.time()-elbowServoMoveTime > 35){
             //Y - Elbow Toward Backboard
-            robot.elbowServo.setPosition(robot.elbowServo.getPosition() + 0.05);
+            robot.elbowServo.setPosition(robot.elbowServo.getPosition() - 0.05);
             elbowServoMoveTime = et.time();
         }
 
