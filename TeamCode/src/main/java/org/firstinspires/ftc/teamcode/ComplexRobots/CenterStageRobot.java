@@ -28,6 +28,7 @@ public class CenterStageRobot extends MecanumDrive {
 
     public final Servo garageDoorServo;
     public final Servo airplaneServo;
+    public final Servo purplePixelServo;
 
     //Constants
     public static int slidesRaisePosition = 500;
@@ -61,19 +62,15 @@ public class CenterStageRobot extends MecanumDrive {
 
         //Initialize Output Servo
         clawServo = hardwareMap.get(Servo.class, "clawServo");
-        //TODO: find numbers
-        clawServo.scaleRange(0,1);
+        clawServo.scaleRange(0,0.35);
         //Force to be in the right place
-        //TODO: find number
-        clawServo.setPosition(0.5);
+        clawServo.setPosition(0);
 
         //Initialize Wrist Servo
         wristServo = hardwareMap.get(Servo.class, "wristServo");
-        //TODO: find numbers
-        wristServo.scaleRange(0,1);
+        wristServo.scaleRange(0,0.6);
         //Force to be in the right place
-        //TODO: find number
-        wristServo.setPosition(0.5);
+        wristServo.setPosition(0.09);
 
         //Initialize Elbow Servo
         elbowServo = hardwareMap.get(Servo.class, "elbowServo");
@@ -94,10 +91,18 @@ public class CenterStageRobot extends MecanumDrive {
         //Initialize Airplane Servo
         airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
         //TODO: find numbers
-        airplaneServo.scaleRange(0.65,0.82);
+        airplaneServo.scaleRange(0,1);
         //Force to be in the right place
         //TODO: find number
-        airplaneServo.setPosition(1);
+        airplaneServo.setPosition(0.5);
+
+        //Initialize Airplane Servo
+        purplePixelServo = hardwareMap.get(Servo.class, "purplePixelServo");
+        //TODO: find numbers
+        purplePixelServo.scaleRange(0,1);
+        //Force to be in the right place
+        //TODO: find number
+        purplePixelServo.setPosition(0.5);
     }
 
     //TODO: Linear slide helper methods for auto (later)

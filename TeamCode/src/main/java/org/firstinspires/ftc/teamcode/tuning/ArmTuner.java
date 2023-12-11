@@ -23,10 +23,10 @@ public class ArmTuner extends OpMode {
     public void loop() {
         if(et.time()-servoTime > 150){
             if(gamepad1.x){
-                robot.clawServo.setPosition(robot.clawServo.getPosition() + 0.05);
+                robot.airplaneServo.setPosition(robot.airplaneServo.getPosition() + 0.05);
                 servoTime = et.time();
             }else if(gamepad1.b){
-                robot.clawServo.setPosition(robot.clawServo.getPosition() - 0.05);
+                robot.airplaneServo.setPosition(robot.airplaneServo.getPosition() - 0.05);
                 servoTime = et.time();
             }
             if(gamepad1.y){
@@ -48,6 +48,13 @@ public class ArmTuner extends OpMode {
                 servoTime = et.time();
             } else if (gamepad1.right_bumper) {
                 robot.garageDoorServo.setPosition(robot.garageDoorServo.getPosition()-0.05);
+                servoTime = et.time();
+            }
+            if(gamepad1.dpad_left){
+                robot.purplePixelServo.setPosition(robot.purplePixelServo.getPosition()+0.05);
+                servoTime = et.time();
+            } else if (gamepad1.dpad_right) {
+                robot.purplePixelServo.setPosition(robot.purplePixelServo.getPosition()-0.05);
                 servoTime = et.time();
             }
         }
@@ -74,11 +81,11 @@ public class ArmTuner extends OpMode {
 
 
         telemetry.addLine("Test Controls and Positions (GP1):");
-        telemetry.addData("Claw Servo (X=inc, B=dec)", robot.clawServo.getPosition());
+        telemetry.addData("Airplane Servo (X=inc, B=dec)", robot.airplaneServo.getPosition());
         telemetry.addData("Wrist Servo (Y=inc, A=dec)", robot.wristServo.getPosition());
         telemetry.addData("Elbow Servo (DPup=inc, DPdn=dec)", robot.elbowServo.getPosition());
-        telemetry.addData("Garage Door Servo (LB=inc, RB=dec)", robot.elbowServo.getPosition());
-        telemetry.addData("Slides (LT=up, RT=dn)", robot.linearSlidesMotor1.getCurrentPosition());
+        telemetry.addData("Purple Pixel Servo (DPleft=inc, DPright=dec)", robot.purplePixelServo.getPosition());
+        telemetry.addData("Garage Door Servo (LB=inc, RB=dec)", robot.garageDoorServo.getPosition());
         telemetry.update();
     }
 }
