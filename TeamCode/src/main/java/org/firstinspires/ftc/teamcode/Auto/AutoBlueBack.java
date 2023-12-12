@@ -57,7 +57,8 @@ public class AutoBlueBack extends LinearOpMode {
                     .strafeTo(new Vector2d(12,24))
                     .strafeToLinearHeading(new Vector2d(48, 48-(6*placementPosition)), 0) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
                     .build());
-        //TODO: place pixel down
+        //TODO: find magic number
+        robot.purplePixelServo.setPosition(0);
 
         //Park in blue backstage
         Actions.runBlocking(
