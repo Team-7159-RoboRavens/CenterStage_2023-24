@@ -76,26 +76,40 @@ public class THEArmBM extends AbstractButtonMap {
         }
 
 
-        //TODO: find +/-
-        if(opMode.gamepad2.x && et.time()-elbowServoMoveTime > 35){
-            //X - Elbow Toward Intake
-            robot.elbowServo.setPosition(robot.elbowServo.getPosition() + 0.05);
-            elbowServoMoveTime = et.time();
-        }else if(opMode.gamepad2.y && et.time()-elbowServoMoveTime > 35){
-            //Y - Elbow Toward Backboard
-            robot.elbowServo.setPosition(robot.elbowServo.getPosition() - 0.05);
-            elbowServoMoveTime = et.time();
-        }
+//        //TODO: find +/-
+//        if(opMode.gamepad2.x && et.time()-elbowServoMoveTime > 35){
+//            //X - Elbow Toward Intake
+//            robot.elbowServo.setPosition(robot.elbowServo.getPosition() + 0.05);
+//            elbowServoMoveTime = et.time();
+//        }else if(opMode.gamepad2.y && et.time()-elbowServoMoveTime > 35){
+//            //Y - Elbow Toward Backboard
+//            robot.elbowServo.setPosition(robot.elbowServo.getPosition() - 0.05);
+//            elbowServoMoveTime = et.time();
+//        }
+//
+//        //TODO: find +/-
+//        if(opMode.gamepad2.b && et.time()-wristServoMoveTime > 35){
+//            //B - Wrist Angle Decrease
+//            robot.wristServo.setPosition(robot.wristServo.getPosition() - 0.05);
+//            wristServoMoveTime = et.time();
+//        }else if(opMode.gamepad2.a && et.time()-wristServoMoveTime > 35){
+//            //A - Wrist Angle Increase
+//            robot.wristServo.setPosition(robot.wristServo.getPosition() + 0.05);
+//            wristServoMoveTime = et.time();
+//        }
 
-        //TODO: find +/-
-        if(opMode.gamepad2.b && et.time()-wristServoMoveTime > 35){
-            //B - Wrist Angle Decrease
-            robot.wristServo.setPosition(robot.wristServo.getPosition() - 0.05);
-            wristServoMoveTime = et.time();
-        }else if(opMode.gamepad2.a && et.time()-wristServoMoveTime > 35){
-            //A - Wrist Angle Increase
-            robot.wristServo.setPosition(robot.wristServo.getPosition() + 0.05);
-            wristServoMoveTime = et.time();
+        if(opMode.gamepad2.y){
+            //Y - Elbow and Wrist to Backboard
+            robot.elbowServo.setPosition(1);
+            robot.wristServo.setPosition(1);
+        }else if(opMode.gamepad2.b){
+            //B - Elbow to slightly lifted position
+            robot.elbowServo.setPosition(0.1);
+            robot.wristServo.setPosition(1);
+        }else if(opMode.gamepad2.a){
+            //A - Elbow and wrist to Load position
+            robot.elbowServo.setPosition(0);
+            robot.wristServo.setPosition(0.09);
         }
 
         //DPad - Plane Servo
