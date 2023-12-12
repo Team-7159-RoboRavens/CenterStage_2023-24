@@ -31,7 +31,7 @@ public class VisionTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(0,0),0), this);
+//        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(0,0),0), this);
         initTfod();
 
         telemetry.addLine("Ready.");
@@ -53,7 +53,7 @@ public class VisionTest extends LinearOpMode {
 
         // Create the vision portal the easy way.
         visionPortal = VisionPortal.easyCreateWithDefaults(
-                BuiltinCameraDirection.BACK, tfod);
+                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod, new PositionMarkers());
     }  
 
     /**

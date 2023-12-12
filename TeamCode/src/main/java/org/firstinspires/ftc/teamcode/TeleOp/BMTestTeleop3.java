@@ -6,10 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.ButtonMaps.AbstractButtonMap;
 import org.firstinspires.ftc.teamcode.ButtonMaps.Arm.AndrewArmBM;
+import org.firstinspires.ftc.teamcode.ButtonMaps.Arm.THEArmBM;
 import org.firstinspires.ftc.teamcode.ButtonMaps.Drive.NoamAndrewDriveBM;
 import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
 
-@TeleOp(name="Button Map Test: Noam/Andrew Drive, Andrew Arm")
+@TeleOp(name="TeleOp: Noam/Andrew Drive & Common Arm")
 public class BMTestTeleop3 extends OpMode {
     //Global Variables
     CenterStageRobot robot;
@@ -23,7 +24,7 @@ public class BMTestTeleop3 extends OpMode {
         telemetry.update();
         robot = new CenterStageRobot(hardwareMap, new Pose2d(0,0,0), this);
         buttonMap = new NoamAndrewDriveBM();
-        slidesButtonMap = new AndrewArmBM();
+        slidesButtonMap = new THEArmBM();
         telemetry.addLine("Ready.");
         telemetry.update();
     }
