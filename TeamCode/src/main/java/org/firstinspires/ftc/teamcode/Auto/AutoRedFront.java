@@ -79,14 +79,15 @@ public class AutoRedFront extends LinearOpMode {
                             .strafeToLinearHeading(new Vector2d(-36,-36), Math.PI/2)
                             .strafeTo(new Vector2d(-48, -36))
                             .build());
-            //TODO: place the pixel down
+            //TODO: find number
+            robot.purplePixelServo.setPosition(0);
         }else if(placementPosition == 2) {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(-36, -24), Math.PI/2)
                             .build());
-            //TODO: place the pixel down
+            robot.purplePixelServo.setPosition(0);
         }else if(placementPosition == 3){
             //Right
             Actions.runBlocking(
@@ -94,8 +95,9 @@ public class AutoRedFront extends LinearOpMode {
                             .strafeToLinearHeading(new Vector2d(-36,-36), Math.PI/2)
                             .strafeTo(new Vector2d(-24, -36))
                             .build());
-            //TODO: place the pixel down
+            robot.purplePixelServo.setPosition(0);
         }
+        sleep(500); /* wait for pixel to fall */
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)
                         .strafeTo(new Vector2d(-36, -36))
@@ -124,26 +126,34 @@ public class AutoRedFront extends LinearOpMode {
         }
 
         /* PLACE ON BACKDROP */
+        //TODO: find numbers
+        robot.elbowServo.setPosition(1);
+        robot.wristServo.setPosition(1);
         if(placementPosition == 1){
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(48, -30))
                             .build());
-            //TODO: place the pixel down
+
         }else if(placementPosition == 2) {
             //Center
-
-            //TODO: place the pixel down
+            sleep(1500); /* wait for arm */
         }else if(placementPosition == 3){
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(48, -42))
                             .build());
-            //TODO: place the pixel down
-        }
 
+        }
+        //TODO: find numbers
+        robot.clawServo.setPosition(1); /* place the pixel */
+        sleep(300); /* wait for pixel to drop */
+        //Reset
+        robot.clawServo.setPosition(0);
+        robot.elbowServo.setPosition(0);
+        robot.wristServo.setPosition(0.09);
         /* PARK */
         //TODO: reset the positions of the servos
         if(parkLeft){
