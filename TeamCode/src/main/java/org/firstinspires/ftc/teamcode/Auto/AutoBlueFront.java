@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
@@ -17,8 +15,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Red - Frontstage")
-public class AutoRedFront extends LinearOpMode {
+@Autonomous(name="Blue - Frontstage")
+public class AutoBlueFront extends LinearOpMode {
     /* CONFIG */
     private final boolean goUnderLeftTruss = false;
     private final double delayAtTrussSeconds = 0;
@@ -37,14 +35,14 @@ public class AutoRedFront extends LinearOpMode {
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,-60),3*Math.PI/2), this);
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,60),Math.PI/2), this);
         tfod = TfodProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
 
         /* POSITION IDENTIFICATION */
         while(!isStarted()){
-            telemetry.addLine("RED, FRONTSTAGE - Ready");
+            telemetry.addLine("BLUE, FRONTSTAGE - Ready");
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             if(currentRecognitions.size() == 0){
                 telemetry.addLine("No Objects Detected. Using last known detection.");
@@ -76,8 +74,8 @@ public class AutoRedFront extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,-36), Math.PI/2)
-                            .strafeTo(new Vector2d(-48, -36))
+                            .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
+                            .strafeTo(new Vector2d(-24, 36))
                             .build());
             //TODO: find number
             robot.purplePixelServo.setPosition(0);
@@ -85,43 +83,45 @@ public class AutoRedFront extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36, -24), Math.PI/2)
+                            .strafeToLinearHeading(new Vector2d(-36, 24), 3*Math.PI/2)
                             .build());
+            //TODO: find number
             robot.purplePixelServo.setPosition(0);
         }else if(placementPosition == 3){
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,-36), Math.PI/2)
-                            .strafeTo(new Vector2d(-24, -36))
+                            .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
+                            .strafeTo(new Vector2d(-48, 36))
                             .build());
+            //TODO: find number
             robot.purplePixelServo.setPosition(0);
         }
         sleep(500); /* wait for pixel to fall */
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)
-                        .strafeTo(new Vector2d(-36, -36))
+                        .strafeTo(new Vector2d(-36, 36))
                         .build());
         /* DRIVE TO BACKSTAGE */
         if(goUnderLeftTruss){
-            //Under the Left (Nearest Stage Door) Truss
+            //Under the Left (Nearest Wall) Truss
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-12,-36), 0)
+                            .splineTo(new Vector2d(-24,60), Math.PI/2)
+                            .strafeTo(new Vector2d(-12,60))
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(48, -36))
-                            .afterDisp(48, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .strafeTo(new Vector2d(48, 60))
+                            .afterDisp(64, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .strafeTo(new Vector2d(48, 36))
                             .build());
         }else{
-            //Under the Right (Nearest Wall) Truss
+            //Under the Right (Nearest Stage Door) Truss
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .splineTo(new Vector2d(-24,-60), Math.PI/2)
-                            .strafeTo(new Vector2d(-12,-60))
+                            .strafeToLinearHeading(new Vector2d(-12,36), 0)
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(48, -60))
-                            .afterDisp(64, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
-                            .strafeTo(new Vector2d(48, -36))
+                            .strafeTo(new Vector2d(48, 36))
+                            .afterDisp(48, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }
 
@@ -133,19 +133,17 @@ public class AutoRedFront extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -30))
+                            .strafeTo(new Vector2d(48, 42))
                             .build());
-
         }else if(placementPosition == 2) {
             //Center
-            sleep(1500); /* wait for arm */
+
         }else if(placementPosition == 3){
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -42))
+                            .strafeTo(new Vector2d(48, 30))
                             .build());
-
         }
         //TODO: find numbers
         robot.clawServo.setPosition(1); /* place the pixel */
@@ -154,13 +152,14 @@ public class AutoRedFront extends LinearOpMode {
         robot.clawServo.setPosition(0);
         robot.elbowServo.setPosition(0);
         robot.wristServo.setPosition(0.09);
+
         /* PARK */
         //TODO: reset the positions of the servos
         if(parkLeft){
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -12))
+                            .strafeTo(new Vector2d(48, 60))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
@@ -168,7 +167,7 @@ public class AutoRedFront extends LinearOpMode {
             //Park on Right Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -60))
+                            .strafeTo(new Vector2d(48, 12))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
