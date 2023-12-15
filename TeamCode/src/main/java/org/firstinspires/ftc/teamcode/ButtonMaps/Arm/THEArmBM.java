@@ -76,7 +76,7 @@ public class THEArmBM extends AbstractButtonMap {
         }
 
 
-//        //TODO: find +/-
+//        //old manual code
 //        if(opMode.gamepad2.x && et.time()-elbowServoMoveTime > 35){
 //            //X - Elbow Toward Intake
 //            robot.elbowServo.setPosition(robot.elbowServo.getPosition() + 0.05);
