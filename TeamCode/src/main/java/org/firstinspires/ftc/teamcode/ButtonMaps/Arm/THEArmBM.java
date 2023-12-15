@@ -69,8 +69,8 @@ public class THEArmBM extends AbstractButtonMap {
         //LB - Garage Door Toggle
         //TODO: find positions
         if(opMode.gamepad2.left_bumper && et.time()-garageServoToggleTime > 300){
-            if(garageDoorOpen) robot.garageDoorServo.setPosition(1);
-            else robot.garageDoorServo.setPosition(0);
+            if(garageDoorOpen) robot.garageDoorServo.setPosition(0);
+            else robot.garageDoorServo.setPosition(1);
             garageDoorOpen = !garageDoorOpen;
             garageServoToggleTime = et.time();
         }
@@ -100,15 +100,15 @@ public class THEArmBM extends AbstractButtonMap {
 
         if(opMode.gamepad2.y){
             //Y - Elbow and Wrist to Backboard
-            robot.elbowServo.setPosition(1);
-            robot.wristServo.setPosition(1);
+            robot.elbowServo.setPosition(0.25);
+            robot.wristServo.setPosition(0.8);
         }else if(opMode.gamepad2.b){
             //B - Elbow to slightly lifted position
-            robot.elbowServo.setPosition(0.1);
+            robot.elbowServo.setPosition(0.95);
             robot.wristServo.setPosition(1);
         }else if(opMode.gamepad2.a){
             //A - Elbow and wrist to Load position
-            robot.elbowServo.setPosition(0);
+            robot.elbowServo.setPosition(1);
             robot.wristServo.setPosition(0.09);
         }
 

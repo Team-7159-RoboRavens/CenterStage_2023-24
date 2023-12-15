@@ -31,7 +31,7 @@ public class CenterStageRobot extends MecanumDrive {
     public final Servo purplePixelServo;
 
     //Constants
-    public static int slidesRaisePosition = 500;
+    public static int slidesRaisePosition = 300;
 
     //Camera Positions
     public static int leftPlacementLowerBound = 35;
@@ -70,7 +70,7 @@ public class CenterStageRobot extends MecanumDrive {
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         wristServo.scaleRange(0,0.6);
         //Force to be in the right place
-        wristServo.setPosition(0.09);
+        wristServo.setPosition(1);
 
         //Initialize Elbow Servo
         elbowServo = hardwareMap.get(Servo.class, "elbowServo");
@@ -78,31 +78,31 @@ public class CenterStageRobot extends MecanumDrive {
         elbowServo.scaleRange(0,1);
         //Force to be in the right place
         //TODO: find number
-        elbowServo.setPosition(0.5);
+        elbowServo.setPosition(0.95);
 
         //Initialize Garage Door Servo
         garageDoorServo = hardwareMap.get(Servo.class, "garageDoorServo");
         //TODO: find numbers
-        garageDoorServo.scaleRange(0,1);
+        garageDoorServo.scaleRange(0,0.55);
         //Force to be in the right place
         //TODO: find number
-        garageDoorServo.setPosition(0.5);
+        garageDoorServo.setPosition(0);
 
         //Initialize Airplane Servo
         airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
         //TODO: find numbers
-        airplaneServo.scaleRange(0,1);
+        airplaneServo.scaleRange(0.9,1);
         //Force to be in the right place
         //TODO: find number
-        airplaneServo.setPosition(0.5);
+        airplaneServo.setPosition(1);
 
         //Initialize Airplane Servo
         purplePixelServo = hardwareMap.get(Servo.class, "purplePixelServo");
         //TODO: find numbers
-        purplePixelServo.scaleRange(0,1);
+        purplePixelServo.scaleRange(0.5,1);
         //Force to be in the right place
         //TODO: find number
-        purplePixelServo.setPosition(0.5);
+        purplePixelServo.setPosition(1);
     }
 
     //TODO: Linear slide helper methods for auto (later)

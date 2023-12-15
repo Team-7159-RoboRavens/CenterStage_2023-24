@@ -74,8 +74,8 @@ public class AutoBlueFront extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
-                            .strafeTo(new Vector2d(-24, 36))
+                            .strafeTo(new Vector2d(-36,36))
+                            .strafeToLinearHeading(new Vector2d(-31, 36), Math.PI/2)
                             .build());
             //TODO: find number
             robot.purplePixelServo.setPosition(0);
@@ -83,7 +83,7 @@ public class AutoBlueFront extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36, 24), 3*Math.PI/2)
+                            .strafeToLinearHeading(new Vector2d(-29, 24), 3*Math.PI/2)
                             .build());
             //TODO: find number
             robot.purplePixelServo.setPosition(0);
@@ -92,7 +92,7 @@ public class AutoBlueFront extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
-                            .strafeTo(new Vector2d(-48, 36))
+                            .strafeTo(new Vector2d(-41, 36))
                             .build());
             //TODO: find number
             robot.purplePixelServo.setPosition(0);
@@ -127,8 +127,8 @@ public class AutoBlueFront extends LinearOpMode {
 
         /* PLACE ON BACKDROP */
         //TODO: find numbers
-        robot.elbowServo.setPosition(1);
-        robot.wristServo.setPosition(1);
+        robot.elbowServo.setPosition(0.25);
+        robot.wristServo.setPosition(0.8);
         if(placementPosition == 1){
             //Left
             Actions.runBlocking(
@@ -150,8 +150,8 @@ public class AutoBlueFront extends LinearOpMode {
         sleep(300); /* wait for pixel to drop */
         //Reset
         robot.clawServo.setPosition(0);
-        robot.elbowServo.setPosition(0);
-        robot.wristServo.setPosition(0.09);
+        robot.elbowServo.setPosition(0.95);
+        robot.wristServo.setPosition(1);
 
         /* PARK */
         //TODO: reset the positions of the servos
