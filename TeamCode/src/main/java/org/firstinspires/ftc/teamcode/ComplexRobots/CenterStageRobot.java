@@ -83,7 +83,7 @@ public class CenterStageRobot extends MecanumDrive {
         //Initialize Garage Door Servo
         garageDoorServo = hardwareMap.get(Servo.class, "garageDoorServo");
         //TODO: find numbers
-        garageDoorServo.scaleRange(0,0.55);
+        garageDoorServo.scaleRange(0.22,0.75);
         //Force to be in the right place
         //TODO: find number
         garageDoorServo.setPosition(0);

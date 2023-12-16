@@ -109,7 +109,7 @@ public class THEArmBM extends AbstractButtonMap {
         }else if(opMode.gamepad2.a){
             //A - Elbow and wrist to Load position
             robot.elbowServo.setPosition(1);
-            robot.wristServo.setPosition(0.09);
+            robot.wristServo.setPosition(0.2);
         }
 
         //DPad - Plane Servo

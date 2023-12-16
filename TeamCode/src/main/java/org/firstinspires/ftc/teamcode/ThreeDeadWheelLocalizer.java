@@ -15,9 +15,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public final class ThreeDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double PAR0_Y_TICKS = 0.0;
-        public double PAR1_Y_TICKS = 0.0;
-        public double PERP_X_TICKS = 0.0;
+        public double PAR0_Y_TICKS = -8819.741207674013;
+        public double PAR1_Y_TICKS = 6903.096884138417;
+        public double PERP_X_TICKS = 6920.509696153399;
     }
 
     public static Params PARAMS = new Params();
@@ -32,7 +32,7 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
         //TODO: Names, Direction(?)
         par0 = new RawEncoder(hardwareMap.get(DcMotorEx.class, "rightBack"));
         par1 = new RawEncoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
-        perp = new RawEncoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
+        perp = new RawEncoder(hardwareMap.get(DcMotorEx.class, "leftBack"));
 
         lastPar0Pos = par0.getPositionAndVelocity().position;
         lastPar1Pos = par1.getPositionAndVelocity().position;
