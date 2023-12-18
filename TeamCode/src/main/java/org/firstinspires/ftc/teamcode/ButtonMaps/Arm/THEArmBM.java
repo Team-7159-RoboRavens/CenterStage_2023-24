@@ -100,15 +100,15 @@ public class THEArmBM extends AbstractButtonMap {
 
         if(opMode.gamepad2.y){
             //Y - Elbow and Wrist to Backboard
-            robot.elbowServo.setPosition(0.25);
+            robot.elbowServo.setPosition(0.2);
             robot.wristServo.setPosition(0.8);
         }else if(opMode.gamepad2.b){
             //B - Elbow to slightly lifted position
-            robot.elbowServo.setPosition(0.95);
+            robot.elbowServo.setPosition(0.89);
             robot.wristServo.setPosition(1);
         }else if(opMode.gamepad2.a){
             //A - Elbow and wrist to Load position
-            robot.elbowServo.setPosition(1);
+            robot.elbowServo.setPosition(0.95);
             robot.wristServo.setPosition(0.2);
         }
 

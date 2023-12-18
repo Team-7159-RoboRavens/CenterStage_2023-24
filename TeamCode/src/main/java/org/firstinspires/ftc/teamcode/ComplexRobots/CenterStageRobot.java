@@ -78,12 +78,12 @@ public class CenterStageRobot extends MecanumDrive {
         elbowServo.scaleRange(0,1);
         //Force to be in the right place
         //TODO: find number
-        elbowServo.setPosition(0.95);
+        elbowServo.setPosition(0.89);
 
         //Initialize Garage Door Servo
         garageDoorServo = hardwareMap.get(Servo.class, "garageDoorServo");
         //TODO: find numbers
-        garageDoorServo.scaleRange(0.22,0.75);
+        garageDoorServo.scaleRange(0.24,0.75);
         //Force to be in the right place
         //TODO: find number
         garageDoorServo.setPosition(0);
@@ -91,7 +91,7 @@ public class CenterStageRobot extends MecanumDrive {
         //Initialize Airplane Servo
         airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
         //TODO: find numbers
-        airplaneServo.scaleRange(0.9,1);
+        airplaneServo.scaleRange(0.85,1);
         //Force to be in the right place
         //TODO: find number
         airplaneServo.setPosition(1);

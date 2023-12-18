@@ -12,9 +12,9 @@ import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
 @Config
 public class NoamAndrewDriveBM extends AbstractButtonMap {
     //TODO: Change back to private final when done with dash
-    public static double triggerMultipler = 0.5;
+    public static double triggerMultipler = 0.9;
     public static double slowStrafeMultiplier = 0.35;
-    public static double powerMultiplier = 0.5;
+    public static double basePower = 0.65;
 
     private boolean buttonPressed = false;
     private boolean combineWithPivotTurn = false;
@@ -25,7 +25,7 @@ public class NoamAndrewDriveBM extends AbstractButtonMap {
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
         mp = new MotorPowers(0);
-        currentMotorPower = 0.5;
+        currentMotorPower = basePower;
         /*
          * Button A - Complete break
          */
