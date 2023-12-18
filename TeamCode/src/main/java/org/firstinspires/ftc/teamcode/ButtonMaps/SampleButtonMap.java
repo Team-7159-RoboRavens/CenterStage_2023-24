@@ -17,7 +17,7 @@ public class SampleButtonMap extends AbstractButtonMap{
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
         if(opMode.gamepad1.a) {
-            robot.armMotor.setPower(0);
+//            robot.armMotor.setPower(0);
         }
         //Other things would go here
     }

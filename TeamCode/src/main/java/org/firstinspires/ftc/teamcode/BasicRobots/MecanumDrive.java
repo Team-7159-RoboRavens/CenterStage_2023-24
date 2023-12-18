@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.ButtonMaps.MotorPowers;
 import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.PoseMessage;
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
@@ -55,13 +56,13 @@ public class MecanumDrive {
     public static class Params {
         //Don't change these after tuning
         // drive model parameters
-        public double inPerTick = 0;
-        public double lateralInPerTick = 1;
-        public double trackWidthTicks = 0;
+        public double inPerTick = 0.00172749;
+        public double lateralInPerTick = -0.0017811267874248895;
+        public double trackWidthTicks = 19369.6603819895;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
+        public double kS = 1.3509863635593407;
+        public double kV = 0.00013556769103268177;
         public double kA = 0;
 
         // path profile parameters (in inches)
@@ -202,13 +203,18 @@ public class MecanumDrive {
         //TODO: Motor Direction (see tuning)
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
@@ -224,6 +230,23 @@ public class MecanumDrive {
         this.opMode = opMode;
     }
 
+    public void setMotorPowers(MotorPowers mp){
+        setMotorPower(mp.leftFront, mp.rightFront, mp.leftBack, mp.rightBack);
+    }
+
+    public void setAllMotorPowers(double power){
+        setMotorPower(power, power, power, power);
+    }
+
+    public MotorPowers pivotTurn(double power, boolean rightBumper, boolean leftBumper) {
+        if(leftBumper) {
+            return new MotorPowers(-power, power, -power, power);
+        } else if(rightBumper) {
+            return new MotorPowers(power, -power, power, -power);
+        }
+        return new MotorPowers(0,0,0,0);
+    }
+
     public void setDrivePowers(PoseVelocity2d powers) {
         MecanumKinematics.WheelVelocities<Time> wheelVels = new MecanumKinematics(1).inverse(
                 PoseVelocity2dDual.constant(powers, 1));
@@ -237,6 +260,12 @@ public class MecanumDrive {
         leftBack.setPower(wheelVels.leftBack.get(0) / maxPowerMag);
         rightBack.setPower(wheelVels.rightBack.get(0) / maxPowerMag);
         rightFront.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
+    }
+    public void setMotorPower(double powLeftFront, double powRightFront, double powLeftBack, double powRightBack){
+        rightFront.setPower(powRightFront);
+        leftFront.setPower(powLeftFront);
+        rightBack.setPower(powRightBack);
+        leftBack.setPower(powLeftBack);
     }
 
     public final class FollowTrajectoryAction implements Action {
