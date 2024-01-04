@@ -33,7 +33,12 @@ public class AutoBlueBack extends LinearOpMode {
         telemetry.update();
         /* INITIALIZATION */
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(12, 60), Math.PI / 2), this);
-        tfod = TfodProcessor.easyCreateWithDefaults();
+        String[] labels = {"redElement", "blueElement"};
+        // Create the TensorFlow processor the easy way.
+        tfod = new TfodProcessor.Builder()
+                .setModelAssetName("CustomElements.tflite")
+                .setModelLabels(labels)
+                .build();
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
 

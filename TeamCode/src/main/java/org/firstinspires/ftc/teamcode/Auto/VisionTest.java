@@ -50,7 +50,7 @@ public class VisionTest extends LinearOpMode {
         String[] labels = {"redElement", "blueElement"};
         // Create the TensorFlow processor the easy way.
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("assetname")
+                .setModelAssetName("CustomElements.tflite")
                 .setModelLabels(labels)
                 .build();
 
