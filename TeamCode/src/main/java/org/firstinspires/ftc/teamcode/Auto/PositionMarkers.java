@@ -27,8 +27,8 @@ public class PositionMarkers implements VisionProcessor {
         Imgproc.line(frame, new Point(CenterStageRobot.centerPlacementLowerBound, 0), new Point(CenterStageRobot.centerPlacementLowerBound,height), new Scalar(255,0,0), 3);
         Imgproc.line(frame, new Point(CenterStageRobot.centerPlacementUpperBound, 0), new Point(CenterStageRobot.centerPlacementUpperBound,height), new Scalar(255,0,0), 3);
         //RIGHT
-        Imgproc.line(frame, new Point(CenterStageRobot.rightPlacementLowerBound, 0), new Point(CenterStageRobot.rightPlacementLowerBound,height), new Scalar(255,0,0), 3);
-        Imgproc.line(frame, new Point(CenterStageRobot.rightPlacementUpperBound, 0), new Point(CenterStageRobot.rightPlacementUpperBound,height), new Scalar(255,0,0), 3);
+//        Imgproc.line(frame, new Point(CenterStageRobot.rightPlacementLowerBound, 0), new Point(CenterStageRobot.rightPlacementLowerBound,height), new Scalar(255,0,0), 3);
+//        Imgproc.line(frame, new Point(CenterStageRobot.rightPlacementUpperBound, 0), new Point(CenterStageRobot.rightPlacementUpperBound,height), new Scalar(255,0,0), 3);
         return frame;
     }
 

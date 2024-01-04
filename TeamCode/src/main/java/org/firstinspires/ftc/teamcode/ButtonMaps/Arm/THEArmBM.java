@@ -13,7 +13,7 @@ public class THEArmBM extends AbstractButtonMap {
     public static double linearSlidesUpMultiplier = 0.55;
 
     private boolean clawOpen = false;
-    private boolean garageDoorOpen = false;
+    private boolean garageDoorOpen = true;
 
     private ElapsedTime et = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private double clawServoToggleTime = 0;
@@ -24,10 +24,9 @@ public class THEArmBM extends AbstractButtonMap {
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
         /* BUTTON MAP
-         * X - Elbow Toward Intake
-         * Y - Elbow Toward Outtake
-         * A - Increase Wrist Angle
-         * B - Decrease Wrist Angle
+         * A - Elbow/Wrist Intake
+         * B - Elbow/Wrist Lift
+         * Y - Elbow/Wrist Backboard
          * Dpad - Release Airplane
          * RB - Claw Toggle
          * LB - Garage Door Toggle
@@ -59,7 +58,7 @@ public class THEArmBM extends AbstractButtonMap {
 
         //RB - Claw Toggle
         //TODO: find positions
-        if(opMode.gamepad2.right_bumper && et.time()-clawServoToggleTime > 300){
+        if(opMode.gamepad2.right_bumper && et.time()-clawServoToggleTime > 500){
             if(clawOpen) robot.clawServo.setPosition(0);
             else robot.clawServo.setPosition(1);
             clawOpen = !clawOpen;
@@ -68,7 +67,7 @@ public class THEArmBM extends AbstractButtonMap {
 
         //LB - Garage Door Toggle
         //TODO: find positions
-        if(opMode.gamepad2.left_bumper && et.time()-garageServoToggleTime > 300){
+        if(opMode.gamepad2.left_bumper && et.time()-garageServoToggleTime > 500){
             if(garageDoorOpen) robot.garageDoorServo.setPosition(0);
             else robot.garageDoorServo.setPosition(1);
             garageDoorOpen = !garageDoorOpen;
@@ -101,15 +100,15 @@ public class THEArmBM extends AbstractButtonMap {
         if(opMode.gamepad2.y){
             //Y - Elbow and Wrist to Backboard
             robot.elbowServo.setPosition(0.2);
-            robot.wristServo.setPosition(0.8);
+            robot.wristServo.setPosition(0.76);
         }else if(opMode.gamepad2.b){
             //B - Elbow to slightly lifted position
-            robot.elbowServo.setPosition(0.89);
+            robot.elbowServo.setPosition(0.9);
             robot.wristServo.setPosition(1);
         }else if(opMode.gamepad2.a){
             //A - Elbow and wrist to Load position
-            robot.elbowServo.setPosition(0.95);
-            robot.wristServo.setPosition(0.2);
+            robot.elbowServo.setPosition(1);
+            robot.wristServo.setPosition(0);
         }
 
         //DPad - Plane Servo

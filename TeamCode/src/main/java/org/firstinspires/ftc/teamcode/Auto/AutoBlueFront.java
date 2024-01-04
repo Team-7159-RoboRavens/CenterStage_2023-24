@@ -30,6 +30,9 @@ public class AutoBlueFront extends LinearOpMode {
     //1 = left, 2 = center, 3 = right
     private int placementPosition = 1;
 
+    //frame counter before reverting
+    private int framesWithoutDetection = 0;
+
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addLine("Initializing, please wait...");
@@ -38,30 +41,37 @@ public class AutoBlueFront extends LinearOpMode {
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,60),Math.PI/2), this);
         tfod = TfodProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
+                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod, new PositionMarkers());
 
         /* POSITION IDENTIFICATION */
         while(!isStarted()){
             telemetry.addLine("BLUE, FRONTSTAGE - Ready");
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             if(currentRecognitions.size() == 0){
-                telemetry.addLine("No Objects Detected. Using last known detection.");
+                framesWithoutDetection++;
+                //If we haven't detected anything for 60 frames, assume right
+                if(framesWithoutDetection > 60){
+                    placementPosition = 3;
+                    telemetry.addLine("No Objects Detected. Assuming Right");
+                }else {
+                    telemetry.addLine("No Objects Detected. Waiting 60 frames.");
+                }
             }else if(currentRecognitions.size() > 1){
                 telemetry.addLine("***Multiple Objects Detected***");
             }
             for (Recognition recognition : currentRecognitions) {
                 double x = (recognition.getLeft() + recognition.getRight()) / 2;
-                double y = (recognition.getTop() + recognition.getBottom()) / 2;
+//                double y = (recognition.getTop() + recognition.getBottom()) / 2;
+                //TODO: change to whatever game element is now
                 if(recognition.getLabel().equals("Pixel")){
                     if(x > CenterStageRobot.leftPlacementLowerBound && x < CenterStageRobot.leftPlacementUpperBound){
+                        framesWithoutDetection = 0;
                         //LEFT
                         placementPosition = 1;
                     }else if(x > CenterStageRobot.centerPlacementLowerBound && x < CenterStageRobot.centerPlacementUpperBound){
+                        framesWithoutDetection = 0;
                         //CENTER
                         placementPosition = 2;
-                    }else if(x > CenterStageRobot.rightPlacementLowerBound && x < CenterStageRobot.rightPlacementUpperBound){
-                        //RIGHT
-                        placementPosition = 3;
                     }
                 }
             }
