@@ -87,16 +87,12 @@ public class AutoBlueFront extends LinearOpMode {
                             .strafeTo(new Vector2d(-36,36))
                             .strafeToLinearHeading(new Vector2d(-31, 36), Math.PI/2)
                             .build());
-            //TODO: find number
-            robot.purplePixelServo.setPosition(0);
         }else if(placementPosition == 2) {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(-29, 24), 3*Math.PI/2)
                             .build());
-            //TODO: find number
-            robot.purplePixelServo.setPosition(0);
         }else if(placementPosition == 3){
             //Right
             Actions.runBlocking(
@@ -104,9 +100,8 @@ public class AutoBlueFront extends LinearOpMode {
                             .strafeToLinearHeading(new Vector2d(-36,36), 3*Math.PI/2)
                             .strafeTo(new Vector2d(-41, 36))
                             .build());
-            //TODO: find number
-            robot.purplePixelServo.setPosition(0);
         }
+        robot.purplePixelServo.setPosition(0);
         sleep(500); /* wait for pixel to fall */
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)
@@ -136,35 +131,20 @@ public class AutoBlueFront extends LinearOpMode {
         }
 
         /* PLACE ON BACKDROP */
-        //TODO: find numbers
-        robot.elbowServo.setPosition(0.25);
-        robot.wristServo.setPosition(0.8);
-        if(placementPosition == 1){
-            //Left
-            Actions.runBlocking(
-                    robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, 42))
-                            .build());
-        }else if(placementPosition == 2) {
-            //Center
-
-        }else if(placementPosition == 3){
-            //Right
-            Actions.runBlocking(
-                    robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, 30))
-                            .build());
-        }
-        //TODO: find numbers
+        robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
+        Actions.runBlocking(
+                robot.actionBuilder(robot.pose)
+                        .strafeTo(new Vector2d(48, 48 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
+                        .build());
         robot.clawServo.setPosition(1); /* place the pixel */
         sleep(300); /* wait for pixel to drop */
         //Reset
         robot.clawServo.setPosition(0);
-        robot.elbowServo.setPosition(0.95);
-        robot.wristServo.setPosition(1);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
 
         /* PARK */
-        //TODO: reset the positions of the servos
         if(parkLeft){
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(

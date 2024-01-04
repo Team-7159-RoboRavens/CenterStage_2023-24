@@ -32,6 +32,12 @@ public class CenterStageRobot extends MecanumDrive {
 
     //Constants
     public static int slidesRaisePosition = 300;
+    public static double elbowBackboardPosition = 0.2;
+    public static double elbowRaisePosition = 0.9;
+    public static double elbowLoadPosition = 1;
+    public static double wristBackboardPosition = 0.76;
+    public static double wristCollapsePosition = 0.9;
+    public static double wristLoadPosition = 0;
 
     //Camera Positions
     public static int leftPlacementLowerBound = 35;

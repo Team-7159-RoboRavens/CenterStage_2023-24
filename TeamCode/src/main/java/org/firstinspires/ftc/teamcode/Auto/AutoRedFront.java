@@ -136,9 +136,8 @@ public class AutoRedFront extends LinearOpMode {
         }
 
         /* PLACE ON BACKDROP */
-        //TODO: find numbers
-        robot.elbowServo.setPosition(0.25);
-        robot.wristServo.setPosition(0.8);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
         if(placementPosition == 1){
             //Left
             Actions.runBlocking(
@@ -157,15 +156,13 @@ public class AutoRedFront extends LinearOpMode {
                             .build());
 
         }
-        //TODO: find numbers
         robot.clawServo.setPosition(1); /* place the pixel */
         sleep(300); /* wait for pixel to drop */
         //Reset
         robot.clawServo.setPosition(0);
-        robot.elbowServo.setPosition(0.95);
-        robot.wristServo.setPosition(1);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
         /* PARK */
-        //TODO: reset the positions of the servos
         if(parkLeft){
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(
