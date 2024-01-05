@@ -39,7 +39,7 @@ public class AutoBlueFront extends LinearOpMode {
         telemetry.update();
         /* INITIALIZATION */
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,60),Math.PI/2), this);
-        String[] labels = {"redElement", "blueElement"};
+        String[] labels = {"blueElement", "redElement"};
         // Create the TensorFlow processor the easy way.
         tfod = new TfodProcessor.Builder()
                 .setModelAssetName("CustomElements.tflite")

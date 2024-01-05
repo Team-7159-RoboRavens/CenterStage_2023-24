@@ -30,6 +30,12 @@ public class BMTestTeleop3 extends OpMode {
     }
 
     @Override
+    public void start(){
+
+    }
+
+
+    @Override
     public void loop() {
         buttonMap.loop(robot, this);
         slidesButtonMap.loop(robot, this);

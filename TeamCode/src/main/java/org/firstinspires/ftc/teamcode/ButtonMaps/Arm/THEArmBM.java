@@ -14,12 +14,15 @@ public class THEArmBM extends AbstractButtonMap {
 
     private boolean clawOpen = false;
     private boolean garageDoorOpen = true;
+    //0 = load, 1 = raise, 2 = backboard
+    private int armPosition = 0;
 
     private ElapsedTime et = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private double clawServoToggleTime = 0;
     private double garageServoToggleTime = 0;
     private double elbowServoMoveTime = 0;
     private double wristServoMoveTime = 0;
+
 
     @Override
     public void loop(CenterStageRobot robot, OpMode opMode) {
@@ -73,29 +76,6 @@ public class THEArmBM extends AbstractButtonMap {
             garageDoorOpen = !garageDoorOpen;
             garageServoToggleTime = et.time();
         }
-
-
-//        //old manual code
-//        if(opMode.gamepad2.x && et.time()-elbowServoMoveTime > 35){
-//            //X - Elbow Toward Intake
-//            robot.elbowServo.setPosition(robot.elbowServo.getPosition() + 0.05);
-//            elbowServoMoveTime = et.time();
-//        }else if(opMode.gamepad2.y && et.time()-elbowServoMoveTime > 35){
-//            //Y - Elbow Toward Backboard
-//            robot.elbowServo.setPosition(robot.elbowServo.getPosition() - 0.05);
-//            elbowServoMoveTime = et.time();
-//        }
-//
-//        //TODO: find +/-
-//        if(opMode.gamepad2.b && et.time()-wristServoMoveTime > 35){
-//            //B - Wrist Angle Decrease
-//            robot.wristServo.setPosition(robot.wristServo.getPosition() - 0.05);
-//            wristServoMoveTime = et.time();
-//        }else if(opMode.gamepad2.a && et.time()-wristServoMoveTime > 35){
-//            //A - Wrist Angle Increase
-//            robot.wristServo.setPosition(robot.wristServo.getPosition() + 0.05);
-//            wristServoMoveTime = et.time();
-//        }
 
         if(opMode.gamepad2.y){
             //Y - Elbow and Wrist to Backboard
