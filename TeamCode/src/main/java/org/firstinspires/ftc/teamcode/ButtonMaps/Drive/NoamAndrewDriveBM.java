@@ -14,7 +14,7 @@ public class NoamAndrewDriveBM extends AbstractButtonMap {
     //TODO: Change back to private final when done with dash
     public static double triggerMultipler = 0.9;
     public static double slowStrafeMultiplier = 0.35;
-    public static double basePower = 0.8;
+    public static double basePower = 0.7;
 
     private boolean buttonPressed = false;
     private boolean combineWithPivotTurn = false;
@@ -36,6 +36,7 @@ public class NoamAndrewDriveBM extends AbstractButtonMap {
         }
 
         if(opMode.gamepad1.back){
+            robot.imu.resetYaw();
         }
 
         //Slow Strafe Button

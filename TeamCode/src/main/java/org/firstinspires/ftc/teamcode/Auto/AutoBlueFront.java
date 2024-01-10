@@ -24,14 +24,10 @@ public class AutoBlueFront extends LinearOpMode {
 
     /* GLOBAL VARIABLES */
     CenterStageRobot robot;
-    private TfodProcessor tfod;
-    private VisionPortal visionPortal;
+    MachineVision machineVision;
 
     //1 = left, 2 = center, 3 = right
     private int placementPosition = 1;
-
-    //frame counter before reverting
-    private int framesWithoutDetection = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,51 +35,12 @@ public class AutoBlueFront extends LinearOpMode {
         telemetry.update();
         /* INITIALIZATION */
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-36,60),Math.PI/2), this);
-        String[] labels = {"blueElement", "redElement"};
-        // Create the TensorFlow processor the easy way.
-        tfod = new TfodProcessor.Builder()
-                .setModelAssetName("CustomElements.tflite")
-                .setModelLabels(labels)
-                .build();
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod, new PositionMarkers());
-
+        machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
-        while(!isStarted()){
-            telemetry.addLine("BLUE, FRONTSTAGE - Ready");
-            List<Recognition> currentRecognitions = tfod.getRecognitions();
-            if(currentRecognitions.size() == 0){
-                framesWithoutDetection++;
-                //If we haven't detected anything for 60 frames, assume right
-                if(framesWithoutDetection > 60){
-                    placementPosition = 3;
-                    telemetry.addLine("No Objects Detected. Assuming Right");
-                }else {
-                    telemetry.addLine("No Objects Detected. Waiting 60 frames.");
-                }
-            }else if(currentRecognitions.size() > 1){
-                telemetry.addLine("***Multiple Objects Detected***");
-            }
-            for (Recognition recognition : currentRecognitions) {
-                double x = (recognition.getLeft() + recognition.getRight()) / 2;
-//                double y = (recognition.getTop() + recognition.getBottom()) / 2;
-                //TODO: change to whatever game element is now
-                if(recognition.getLabel().equals("Pixel")){
-                    if(x > CenterStageRobot.leftPlacementLowerBound && x < CenterStageRobot.leftPlacementUpperBound){
-                        framesWithoutDetection = 0;
-                        //LEFT
-                        placementPosition = 1;
-                    }else if(x > CenterStageRobot.centerPlacementLowerBound && x < CenterStageRobot.centerPlacementUpperBound){
-                        framesWithoutDetection = 0;
-                        //CENTER
-                        placementPosition = 2;
-                    }
-                }
-            }
-            telemetry.addData("Placement Position", placementPosition);
-            telemetry.update();
-        }
-        visionPortal.close();
+        placementPosition = machineVision.run();
+        robot.garageDoorServo.setPosition(1);
+        sleep(200);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
         /* PIXEL ON SPIKE STRIP */
         if(placementPosition == 1){
             //Left

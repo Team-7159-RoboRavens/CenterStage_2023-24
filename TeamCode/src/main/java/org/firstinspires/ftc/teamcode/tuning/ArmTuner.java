@@ -93,6 +93,8 @@ public class ArmTuner extends OpMode {
         telemetry.addData("Elbow Servo (DPup=inc, DPdn=dec)", robot.elbowServo.getPosition());
         telemetry.addData("Claw Servo (DPleft=inc, DPright=dec)", robot.clawServo.getPosition());
         telemetry.addData("Garage Door Servo (LB=inc, RB=dec)", robot.garageDoorServo.getPosition());
+        telemetry.addData("LS Motor 1 Position", robot.linearSlidesMotor1.getCurrentPosition());
+        telemetry.addData("LS Motor 2 Position", robot.linearSlidesMotor2.getCurrentPosition());
         telemetry.update();
     }
 }

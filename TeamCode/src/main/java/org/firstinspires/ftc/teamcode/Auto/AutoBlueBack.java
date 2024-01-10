@@ -19,11 +19,11 @@ import java.util.List;
 
 @Autonomous(name = "Blue - Backstage")
 public class AutoBlueBack extends LinearOpMode {
+    /* CONFIG */
     public final boolean parkLeft = true;
 
     CenterStageRobot robot;
-    private TfodProcessor tfod;
-    private VisionPortal visionPortal;
+    MachineVision machineVision;
 
     private int placementPosition = 1;
 
@@ -33,34 +33,12 @@ public class AutoBlueBack extends LinearOpMode {
         telemetry.update();
         /* INITIALIZATION */
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(12, 60), Math.PI / 2), this);
-        String[] labels = {"blueElement", "redElement"};
-        // Create the TensorFlow processor the easy way.
-        tfod = new TfodProcessor.Builder()
-                .setModelAssetName("CustomElements.tflite")
-                .setModelLabels(labels)
-                .build();
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
-
+        machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
-        while (!isStarted()) {
-            telemetry.addLine("BLUE, BACKSTAGE - Ready");
-            List<Recognition> currentRecognitions = tfod.getRecognitions();
-            if (currentRecognitions.size() == 0) {
-                telemetry.addLine("No Objects Detected. Using last known detection.");
-            } else if (currentRecognitions.size() > 1) {
-                telemetry.addLine("***Multiple Objects Detected***");
-            }
-            for (Recognition recognition : currentRecognitions) {
-                double x = (recognition.getLeft() + recognition.getRight()) / 2;
-                double y = (recognition.getTop() + recognition.getBottom()) / 2;
-                //TODO: Find binding area for the 3 placements
-
-            }
-            telemetry.addData("Placement Position", placementPosition);
-            telemetry.update();
-        }
-        visionPortal.close();
+        placementPosition = machineVision.run();
+        robot.garageDoorServo.setPosition(1);
+        sleep(200);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(

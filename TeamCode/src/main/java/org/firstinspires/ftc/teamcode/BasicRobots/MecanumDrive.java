@@ -56,14 +56,14 @@ public class MecanumDrive {
     public static class Params {
         //Don't change these after tuning
         // drive model parameters
-        public double inPerTick = 0.0005299596;
-        public double lateralInPerTick = 0.0004169338670176548;
-        public double trackWidthTicks = 25871.55058391121;
+        public double inPerTick = 0.0005335331;
+        public double lateralInPerTick = 0.0005;
+        public double trackWidthTicks = 26708.449894169036; //check
 
         // feedforward parameters (in tick units)
-        public double kS = 1.4338708269760607;
-        public double kV = 0.000102566881079618;
-        public double kA = 0;
+        public double kS = 1.0100794408890854;
+        public double kV = 0.00010836953157124216;
+        public double kA = 0.000017;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -75,9 +75,9 @@ public class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 5.5;
+        public double lateralGain = 1.0;
+        public double headingGain = 1.0; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -461,7 +461,7 @@ public class MecanumDrive {
         c.strokePolyline(xPoints, yPoints);
     }
 
-    private static void drawRobot(Canvas c, Pose2d t) {
+    public static void drawRobot(Canvas c, Pose2d t) {
         final double ROBOT_RADIUS = 9;
 
         c.setStrokeWidth(1);

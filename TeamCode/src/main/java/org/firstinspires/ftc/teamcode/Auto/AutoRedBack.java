@@ -17,11 +17,11 @@ import java.util.List;
 
 @Autonomous(name = "Red - Backstage")
 public class AutoRedBack extends LinearOpMode {
-    public final boolean parkLeft = true;
+    public final boolean parkLeft = false;
 
     CenterStageRobot robot;
-    private TfodProcessor tfod;
-    private VisionPortal visionPortal;
+    MachineVision machineVision;
+
 
     private int placementPosition = 1;
 
@@ -30,35 +30,13 @@ public class AutoRedBack extends LinearOpMode {
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(12, -60), 3*Math.PI / 2), this);
-        String[] labels = {"blueElement", "redElement"};
-        // Create the TensorFlow processor the easy way.
-        tfod = new TfodProcessor.Builder()
-                .setModelAssetName("CustomElements.tflite")
-                .setModelLabels(labels)
-                .build();
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
-
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(12, -62), 3*Math.PI / 2), this);
+        machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
-        while (!isStarted()) {
-            telemetry.addLine("RED, BACKSTAGE - Ready");
-            List<Recognition> currentRecognitions = tfod.getRecognitions();
-            if (currentRecognitions.size() == 0) {
-                telemetry.addLine("No Objects Detected. Using last known detection.");
-            } else if (currentRecognitions.size() > 1) {
-                telemetry.addLine("***Multiple Objects Detected***");
-            }
-            for (Recognition recognition : currentRecognitions) {
-                double x = (recognition.getLeft() + recognition.getRight()) / 2;
-                double y = (recognition.getTop() + recognition.getBottom()) / 2;
-                //TODO: Find binding area for the 3 placements
-
-            }
-            telemetry.addData("Placement Position", placementPosition);
-            telemetry.update();
-        }
-        visionPortal.close();
+        placementPosition = machineVision.run();
+        robot.garageDoorServo.setPosition(1);
+        sleep(200);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(
@@ -77,7 +55,7 @@ public class AutoRedBack extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(12, -36))
-                            .strafeToLinearHeading(new Vector2d(17, -36), Math.PI / 2)
+                            .strafeToLinearHeading(new Vector2d(31, -36), 3*Math.PI / 2)
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
@@ -85,26 +63,22 @@ public class AutoRedBack extends LinearOpMode {
         /*Place on Backboard*/
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)
-                        .afterTime(1, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                        .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                         .strafeToLinearHeading(new Vector2d(48, -36), Math.PI)
                         .strafeTo(new Vector2d(48, -24 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
                         .build());
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
-        sleep(1000);
+        sleep(2000);
         robot.clawServo.setPosition(1); /* place the pixel */
-        sleep(300); /* wait for pixel to drop */
-        //Reset
+        sleep(700); /* wait for pixel to drop */
         robot.clawServo.setPosition(0);
-        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
-        robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
-
-        //Park in blue backstage
+        //Park in red backstage
         if(parkLeft){
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -60))
+                            .strafeTo(new Vector2d(48, -12))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
@@ -112,10 +86,15 @@ public class AutoRedBack extends LinearOpMode {
             //Park on Right Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -12))
+                            .strafeTo(new Vector2d(48, -60))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
         }
+        //Reset
+
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
+        sleep(1000);
     }
 }

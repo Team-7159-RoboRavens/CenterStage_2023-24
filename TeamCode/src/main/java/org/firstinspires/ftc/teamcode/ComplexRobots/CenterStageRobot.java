@@ -31,7 +31,7 @@ public class CenterStageRobot extends MecanumDrive {
     public final Servo purplePixelServo;
 
     //Constants
-    public static int slidesRaisePosition = 300;
+    public static int slidesRaisePosition = 450;
     public static double elbowBackboardPosition = 0.2;
     public static double elbowRaisePosition = 0.9;
     public static double elbowLoadPosition = 0.96;
@@ -59,8 +59,8 @@ public class CenterStageRobot extends MecanumDrive {
         linearSlidesMotor2.setDirection(DcMotor.Direction.FORWARD);
         linearSlidesMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlidesMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlidesMotor1.setTargetPositionTolerance(5);
-        linearSlidesMotor2.setTargetPositionTolerance(5);
+        linearSlidesMotor1.setTargetPositionTolerance(15);
+        linearSlidesMotor2.setTargetPositionTolerance(15);
         linearSlidesMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlidesMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -128,16 +128,16 @@ public class CenterStageRobot extends MecanumDrive {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(!initialized){
-                linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlidesMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 linearSlidesMotor1.setTargetPosition(this.targetPosition);
                 linearSlidesMotor2.setTargetPosition(this.targetPosition);
-                linearSlidesMotor1.setPower(0.5);
-                linearSlidesMotor1.setPower(0.5);
+                linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                linearSlidesMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                linearSlidesMotor1.setPower(0.6);
+                linearSlidesMotor1.setPower(0.6);
                 initialized = true;
                 return true;
             }
-            return linearSlidesMotor1.isBusy();
+            return linearSlidesMotor1.isBusy() || linearSlidesMotor2.isBusy();
         }
     }
 }
