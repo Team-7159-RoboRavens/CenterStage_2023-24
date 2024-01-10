@@ -23,11 +23,11 @@ public class PositionMarkers implements VisionProcessor {
         //LEFT
         Imgproc.line(frame, new Point(CenterStageRobot.leftPlacementLowerBound, 0), new Point(CenterStageRobot.leftPlacementLowerBound,height), new Scalar(255,0,0), 3);
         Imgproc.line(frame, new Point(CenterStageRobot.leftPlacementUpperBound, 0), new Point(CenterStageRobot.leftPlacementUpperBound,height), new Scalar(255,0,0), 3);
-        Imgproc.putText(frame, "L", new Point(CenterStageRobot.leftPlacementUpperBound, 50),1,20, new Scalar(255,0,0));
+        Imgproc.putText(frame, "L", new Point(CenterStageRobot.leftPlacementUpperBound, 50),1,15, new Scalar(255,0,0));
         //CENTER
         Imgproc.line(frame, new Point(CenterStageRobot.centerPlacementLowerBound, 0), new Point(CenterStageRobot.centerPlacementLowerBound,height), new Scalar(255,0,0), 3);
         Imgproc.line(frame, new Point(CenterStageRobot.centerPlacementUpperBound, 0), new Point(CenterStageRobot.centerPlacementUpperBound,height), new Scalar(255,0,0), 3);
-        Imgproc.putText(frame, "C", new Point(CenterStageRobot.centerPlacementUpperBound-5, 50),1,20, new Scalar(255,0,0));
+        Imgproc.putText(frame, "C", new Point(CenterStageRobot.centerPlacementUpperBound-5, 50),1,15, new Scalar(255,0,0));
         //RIGHT
 //        Imgproc.line(frame, new Point(CenterStageRobot.rightPlacementLowerBound, 0), new Point(CenterStageRobot.rightPlacementLowerBound,height), new Scalar(255,0,0), 3);
 //        Imgproc.line(frame, new Point(CenterStageRobot.rightPlacementUpperBound, 0), new Point(CenterStageRobot.rightPlacementUpperBound,height), new Scalar(255,0,0), 3);

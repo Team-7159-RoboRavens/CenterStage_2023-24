@@ -97,7 +97,7 @@ public class AutoBlueFront extends LinearOpMode {
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)
-                        .strafeTo(new Vector2d(48, 48 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
+                        .strafeTo(new Vector2d(50, 48 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
                         .build());
         robot.clawServo.setPosition(1); /* place the pixel */
         sleep(300); /* wait for pixel to drop */

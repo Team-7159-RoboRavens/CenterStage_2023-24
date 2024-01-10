@@ -65,7 +65,7 @@ public class AutoRedBack extends LinearOpMode {
                 robot.actionBuilder(robot.pose)
                         .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                         .strafeToLinearHeading(new Vector2d(48, -36), Math.PI)
-                        .strafeTo(new Vector2d(48, -24 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
+                        .strafeTo(new Vector2d(50, -24 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
                         .build());
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);

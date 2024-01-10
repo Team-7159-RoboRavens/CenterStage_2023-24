@@ -119,25 +119,67 @@ public class CenterStageRobot extends MecanumDrive {
     class SlideHeight implements Action {
         private boolean initialized;
         private int targetPosition;
+        private boolean raise;
         SlideHeight(int targetPosition){
             initialized = false;
             this.targetPosition = targetPosition;
+            if(linearSlidesMotor1.getCurrentPosition() < targetPosition) raise = true;
+            else raise = false;
         }
 
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(!initialized){
-                linearSlidesMotor1.setTargetPosition(this.targetPosition);
-                linearSlidesMotor2.setTargetPosition(this.targetPosition);
-                linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlidesMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlidesMotor1.setPower(0.6);
-                linearSlidesMotor1.setPower(0.6);
+                if(raise){
+                    linearSlidesMotor1.setPower(0.5);
+                    linearSlidesMotor1.setPower(0.5);
+                }else{
+                    linearSlidesMotor1.setPower(-0.3);
+                    linearSlidesMotor1.setPower(-0.3);
+                }
                 initialized = true;
                 return true;
+            }else{
+                int avgCurrentPosition = (linearSlidesMotor1.getCurrentPosition()+linearSlidesMotor2.getCurrentPosition())/2;
+                int difference;
+                if(raise){
+                    difference = targetPosition - avgCurrentPosition;
+                    if(difference <= 10 && difference >= -10){
+                        //STOP
+                        linearSlidesMotor1.setPower(0);
+                        linearSlidesMotor2.setPower(0);
+                        //Exit out, we're done
+                        return false;
+                    }else if (difference < -10) {
+                        //Reverse
+                        linearSlidesMotor1.setPower(-0.15);
+                        linearSlidesMotor2.setPower(-0.15);
+                    }else if(difference < 100 && difference > 10){
+                        //Soft stop
+                        linearSlidesMotor1.setPower(0.25);
+                        linearSlidesMotor2.setPower(0.25);
+                    }
+                }else {
+                    difference = avgCurrentPosition - targetPosition;
+                    if (difference <= 10 && difference >= -10) {
+                        //STOP
+                        linearSlidesMotor1.setPower(0);
+                        linearSlidesMotor2.setPower(0);
+                        //Exit out, we're done
+                        return false;
+                    } else if (difference < -10) {
+                        //Reverse
+                        linearSlidesMotor1.setPower(0.25);
+                        linearSlidesMotor2.setPower(0.25);
+                    } else if (difference < 100 && difference > 10) {
+                        //Soft stop
+                        linearSlidesMotor1.setPower(-0.15);
+                        linearSlidesMotor2.setPower(-0.15);
+                    }
+                }
+                return true;
             }
-            return linearSlidesMotor1.isBusy() || linearSlidesMotor2.isBusy();
         }
     }
 }

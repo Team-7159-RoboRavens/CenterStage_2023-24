@@ -44,7 +44,7 @@ public class AutoBlueBack extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(12, 36))
-                            .strafeToLinearHeading(new Vector2d(17, 36), Math.PI / 2)
+                            .strafeToLinearHeading(new Vector2d(31, 36), 3*Math.PI / 2)
                             .build());
         } else if (placementPosition == 2) {
             //Center
@@ -67,11 +67,11 @@ public class AutoBlueBack extends LinearOpMode {
                 robot.actionBuilder(robot.pose)
                         .afterTime(1, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                         .strafeToLinearHeading(new Vector2d(48, 36), Math.PI)
-                        .strafeTo(new Vector2d(48, 48 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
+                        .strafeTo(new Vector2d(50, 48 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
                         .build());
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
-        sleep(1000);
+        sleep(2000);
         robot.clawServo.setPosition(1); /* place the pixel */
         sleep(300); /* wait for pixel to drop */
         //Reset
