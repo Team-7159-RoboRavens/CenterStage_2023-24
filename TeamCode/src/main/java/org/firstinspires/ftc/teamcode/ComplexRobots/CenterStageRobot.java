@@ -40,10 +40,10 @@ public class CenterStageRobot extends MecanumDrive {
     public static double wristLoadPosition = 0;
 
     //Camera Positions
-    public static int leftPlacementLowerBound = 35;
-    public static int leftPlacementUpperBound = 65;
-    public static int centerPlacementLowerBound = 320;
-    public static int centerPlacementUpperBound = 350;
+    public static int leftPlacementLowerBound = 0;
+    public static int leftPlacementUpperBound = 140;
+    public static int centerPlacementLowerBound = 500;
+    public static int centerPlacementUpperBound = 640;
     public static int rightPlacementLowerBound = 500;
     public static int rightPlacementUpperBound = 520;
 
@@ -145,34 +145,34 @@ public class CenterStageRobot extends MecanumDrive {
                 int difference;
                 if(raise){
                     difference = targetPosition - avgCurrentPosition;
-                    if(difference <= 10 && difference >= -10){
+                    if(difference <= 7 && difference >= -7){
                         //STOP
                         linearSlidesMotor1.setPower(0);
                         linearSlidesMotor2.setPower(0);
                         //Exit out, we're done
                         return false;
-                    }else if (difference < -10) {
+                    }else if (difference < -7) {
                         //Reverse
                         linearSlidesMotor1.setPower(-0.15);
                         linearSlidesMotor2.setPower(-0.15);
-                    }else if(difference < 100 && difference > 10){
+                    }else if(difference < 100 && difference > 7){
                         //Soft stop
                         linearSlidesMotor1.setPower(0.25);
                         linearSlidesMotor2.setPower(0.25);
                     }
                 }else {
                     difference = avgCurrentPosition - targetPosition;
-                    if (difference <= 10 && difference >= -10) {
+                    if (difference <= 7 && difference >= -7) {
                         //STOP
                         linearSlidesMotor1.setPower(0);
                         linearSlidesMotor2.setPower(0);
                         //Exit out, we're done
                         return false;
-                    } else if (difference < -10) {
+                    } else if (difference < -7) {
                         //Reverse
                         linearSlidesMotor1.setPower(0.25);
                         linearSlidesMotor2.setPower(0.25);
-                    } else if (difference < 100 && difference > 10) {
+                    } else if (difference < 100 && difference > 7) {
                         //Soft stop
                         linearSlidesMotor1.setPower(-0.15);
                         linearSlidesMotor2.setPower(-0.15);

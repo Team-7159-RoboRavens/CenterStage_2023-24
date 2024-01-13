@@ -17,7 +17,7 @@ import java.util.List;
 
 @Autonomous(name = "Red - Backstage")
 public class AutoRedBack extends LinearOpMode {
-    public final boolean parkLeft = false;
+    public final boolean parkLeft = true;
 
     CenterStageRobot robot;
     MachineVision machineVision;
@@ -30,13 +30,23 @@ public class AutoRedBack extends LinearOpMode {
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(12, -62), 3*Math.PI / 2), this);
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(9, -62), 3*Math.PI / 2), this);
         machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
-        placementPosition = machineVision.run();
+        telemetry.addLine("Ready");
+        telemetry.update();
+        waitForStart();
         robot.garageDoorServo.setPosition(1);
         sleep(200);
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+        //Go find the position
+        telemetry.addLine("Checking Machine Vision");
+        telemetry.update();
+        Actions.runBlocking(
+                robot.actionBuilder(robot.pose)
+                        .strafeToLinearHeading(new Vector2d(10, -58), 3 * Math.PI / 2)
+                        .build());
+        placementPosition = machineVision.run();
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(
@@ -48,14 +58,14 @@ public class AutoRedBack extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(19, -24), 3 * Math.PI / 2)
+                            .strafeToLinearHeading(new Vector2d(12, -19), Math.PI)
                             .build());
         } else if (placementPosition == 3) {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(12, -36))
-                            .strafeToLinearHeading(new Vector2d(31, -36), 3*Math.PI / 2)
+                            .strafeToLinearHeading(new Vector2d(33, -36), 3*Math.PI / 2)
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
@@ -64,12 +74,12 @@ public class AutoRedBack extends LinearOpMode {
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)
                         .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
-                        .strafeToLinearHeading(new Vector2d(48, -36), Math.PI)
-                        .strafeTo(new Vector2d(50, -24 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
+                        .strafeToLinearHeading(new Vector2d(53.5, -36), Math.PI)
+                        .strafeTo(new Vector2d(53.5, -29 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
                         .build());
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
-        sleep(2000);
+        sleep(2500);
         robot.clawServo.setPosition(1); /* place the pixel */
         sleep(700); /* wait for pixel to drop */
         robot.clawServo.setPosition(0);
@@ -78,7 +88,7 @@ public class AutoRedBack extends LinearOpMode {
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -12))
+                            .strafeTo(new Vector2d(50, -12))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
@@ -86,7 +96,7 @@ public class AutoRedBack extends LinearOpMode {
             //Park on Right Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(48, -60))
+                            .strafeTo(new Vector2d(50, -60))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));

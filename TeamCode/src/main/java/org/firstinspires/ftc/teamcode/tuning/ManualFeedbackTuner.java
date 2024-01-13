@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.tuning;
 
 import com.acmerobotics.roadrunner.Pose2d;
 // TODO: remove Actions from the core module?
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -24,7 +25,7 @@ public final class ManualFeedbackTuner extends LinearOpMode {
             telemetry.addLine("B - Strafe left and right "+DISTANCE+"in. (for lateral)");
             telemetry.addLine("X - Rotate left and right "+ANGLE_DEGREES+" deg (for angular)");
             telemetry.update();
-            while(opModeIsActive()){
+            while(opModeInInit() || opModeIsActive()){
                 if(gamepad1.a){
                     mode = 1;
                     telemetry.addLine("Selected mode A");
@@ -52,8 +53,8 @@ public final class ManualFeedbackTuner extends LinearOpMode {
                 }else if(mode == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .lineToY(DISTANCE)
-                                    .lineToY(0)
+                                    .strafeTo(new Vector2d(0, DISTANCE))
+                                    .strafeTo(new Vector2d(0,0))
                                     .build());
                 }else if(mode == 3){
                     Actions.runBlocking(
