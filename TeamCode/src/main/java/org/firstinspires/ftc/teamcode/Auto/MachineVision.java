@@ -35,7 +35,9 @@ public class MachineVision {
     public int run() {
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), tfod, new PositionMarkers());
-        opMode.sleep(2500);
+        opMode.sleep(3000);
+        opMode.telemetry.addData("recognition count", tfod.getRecognitions().size());
+        opMode.sleep(2000);
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         if (currentRecognitions.size() == 0) {
             placementPosition = 3;
@@ -45,6 +47,7 @@ public class MachineVision {
         }
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            opMode.telemetry.addData(recognition.getLabel() + "detected at", x);
 //                double y = (recognition.getTop() + recognition.getBottom()) / 2;
             if (recognition.getLabel().equals("blueElement") || recognition.getLabel().equals("redElement")) {
                 if (x > CenterStageRobot.leftPlacementLowerBound && x < CenterStageRobot.leftPlacementUpperBound) {

@@ -32,7 +32,7 @@ public class AutoBlueBack extends LinearOpMode {
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(15, 58), Math.PI / 2), this);
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(15, 62), Math.PI / 2), this);
         machineVision = new MachineVision(hardwareMap, this);
         telemetry.addLine("Ready");
         telemetry.update();
@@ -59,7 +59,7 @@ public class AutoBlueBack extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(12, 19), 0)
+                            .strafeToLinearHeading(new Vector2d(12, 31), 0)
                             .build());
         } else if (placementPosition == 3) {
             //Right
@@ -72,12 +72,29 @@ public class AutoBlueBack extends LinearOpMode {
         robot.purplePixelServo.setPosition(0);
         sleep(500); /* wait for pixel to fall */
         /*Place on Backboard*/
-        Actions.runBlocking(
-                robot.actionBuilder(robot.pose)
-                        .afterTime(1, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
-                        .strafeToLinearHeading(new Vector2d(53.5, 36), Math.PI)
-                        .strafeTo(new Vector2d(53.5, 48 - (6 * placementPosition))) // 48 is the upper bound of the board's tile's y position and placement positions are 6in apart
-                        .build());
+        /*Place on Backboard*/
+        if (placementPosition == 1) {
+            Actions.runBlocking(
+                    robot.actionBuilder(robot.pose)
+                            .strafeToSplineHeading(new Vector2d(48, 36), Math.PI)
+                            .strafeTo(new Vector2d(53, 50))
+                            .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .build());
+        } else if (placementPosition == 2) {
+            Actions.runBlocking(
+                    robot.actionBuilder(robot.pose)
+                            .strafeToSplineHeading(new Vector2d(48, 36), Math.PI)
+                            .strafeTo(new Vector2d(53, 41))
+                            .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .build());
+        } else if (placementPosition == 3) {
+            Actions.runBlocking(
+                    robot.actionBuilder(robot.pose)
+                            .strafeToSplineHeading(new Vector2d(48, 36), Math.PI)
+                            .strafeTo(new Vector2d(53, 30))
+                            .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .build());
+        }
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
         sleep(2000);
@@ -93,6 +110,7 @@ public class AutoBlueBack extends LinearOpMode {
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
+                            .lineToX(45)
                             .strafeTo(new Vector2d(50, 60))
                             .build(),
                     robot.setSlideHeightAction(0)
@@ -101,6 +119,7 @@ public class AutoBlueBack extends LinearOpMode {
             //Park on Right Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
+                            .lineToX(45)
                             .strafeTo(new Vector2d(50, 12))
                             .build(),
                     robot.setSlideHeightAction(0)
