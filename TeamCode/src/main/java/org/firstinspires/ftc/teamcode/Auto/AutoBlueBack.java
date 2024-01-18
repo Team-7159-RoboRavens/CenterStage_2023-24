@@ -34,20 +34,11 @@ public class AutoBlueBack extends LinearOpMode {
         /* INITIALIZATION */
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(15, 62), Math.PI / 2), this);
         machineVision = new MachineVision(hardwareMap, this);
-        telemetry.addLine("Ready");
-        telemetry.update();
-        waitForStart();
+        //Go find the position
+        placementPosition = machineVision.run();
         robot.garageDoorServo.setPosition(1);
         sleep(200);
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
-        //Go find the position
-        telemetry.addLine("Checking Machine Vision");
-        telemetry.update();
-        Actions.runBlocking(
-                robot.actionBuilder(robot.pose)
-                        .strafeToLinearHeading(new Vector2d(15, 58), Math.PI / 2)
-                        .build());
-        placementPosition = machineVision.run();
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(
@@ -71,7 +62,6 @@ public class AutoBlueBack extends LinearOpMode {
         }
         robot.purplePixelServo.setPosition(0);
         sleep(500); /* wait for pixel to fall */
-        /*Place on Backboard*/
         /*Place on Backboard*/
         if (placementPosition == 1) {
             Actions.runBlocking(
@@ -97,13 +87,11 @@ public class AutoBlueBack extends LinearOpMode {
         }
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
-        sleep(2000);
+        sleep(2500);
         robot.clawServo.setPosition(1); /* place the pixel */
-        sleep(300); /* wait for pixel to drop */
+        sleep(500); /* wait for pixel to drop */
         //Reset
         robot.clawServo.setPosition(0);
-        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
-        robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
 
         //Park in blue backstage
         if(parkLeft){
@@ -125,5 +113,8 @@ public class AutoBlueBack extends LinearOpMode {
                     robot.setSlideHeightAction(0)
             ));
         }
+        robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
+        sleep(1000);
     }
 }

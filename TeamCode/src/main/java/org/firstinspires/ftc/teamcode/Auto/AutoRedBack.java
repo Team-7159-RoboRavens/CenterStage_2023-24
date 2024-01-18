@@ -33,20 +33,11 @@ public class AutoRedBack extends LinearOpMode {
         robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(9, -62), 3 * Math.PI / 2), this);
         machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
-        telemetry.addLine("Ready");
-        telemetry.update();
-        waitForStart();
+        //Go find the position
+        placementPosition = machineVision.run();
         robot.garageDoorServo.setPosition(1);
         sleep(200);
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
-        //Go find the position
-        telemetry.addLine("Checking Machine Vision");
-        telemetry.update();
-        Actions.runBlocking(
-                robot.actionBuilder(robot.pose)
-                        .strafeToLinearHeading(new Vector2d(10, -58), 3 * Math.PI / 2)
-                        .build());
-        placementPosition = machineVision.run();
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(
@@ -99,7 +90,7 @@ public class AutoRedBack extends LinearOpMode {
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
         sleep(2500);
         robot.clawServo.setPosition(1); /* place the pixel */
-        sleep(700); /* wait for pixel to drop */
+        sleep(500); /* wait for pixel to drop */
         robot.clawServo.setPosition(0);
         //Park in red backstage
         if (parkLeft) {
