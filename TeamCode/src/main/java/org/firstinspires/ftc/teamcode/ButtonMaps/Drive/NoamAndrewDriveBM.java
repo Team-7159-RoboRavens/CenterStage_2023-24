@@ -12,7 +12,9 @@ import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
 @Config
 public class NoamAndrewDriveBM extends AbstractButtonMap {
     //TODO: Change back to private final when done with dash
-    public static double triggerMultipler = 0.9;
+    public static double triggerMultipler = 0.85;
+    public static double dpadBumperMultiplier = 0.65;
+    public static double fodMultiplier = 0.85;
     public static double slowStrafeMultiplier = 0.35;
     public static double basePower = 0.65;
 
@@ -53,7 +55,7 @@ public class NoamAndrewDriveBM extends AbstractButtonMap {
         }
 
         //Field-Oriented Driving using left joystick
-        MotorPowers fodMotorPowers = FieldOrientedDrive.fieldOrientedDrive(opMode.gamepad1, robot.imu, currentMotorPower);
+        MotorPowers fodMotorPowers = FieldOrientedDrive.fieldOrientedDrive(opMode.gamepad1, robot.imu, opMode.gamepad1.b ? fodMultiplier*slowStrafeMultiplier : fodMultiplier);
         if (fodMotorPowers.isNotZero()) {
             mp = fodMotorPowers;
             opMode.telemetry.addLine("FOD Active!");
