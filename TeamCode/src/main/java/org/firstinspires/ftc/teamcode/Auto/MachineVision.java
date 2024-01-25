@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,13 +13,15 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
+@Config
 public class MachineVision {
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
     private HardwareMap hardwareMap;
     private LinearOpMode opMode;
 
-    private int placementPosition = 1;
+    public static int placementPosition = 1;
+    public static int defaultPlacementPosition = 3;
     private int framesWithoutDetection = 0;
 
     public MachineVision(HardwareMap hm, LinearOpMode om){
@@ -43,7 +46,7 @@ public class MachineVision {
                 framesWithoutDetection++;
                 //If we haven't detected anything for 60 frames, assume right
                 if(framesWithoutDetection > 60){
-                    placementPosition = 3;
+                    placementPosition = /*3*/ defaultPlacementPosition;
                     opMode.telemetry.addLine("No Objects Detected. Assuming Right.");
                 }else {
                     opMode.telemetry.addLine("No Objects Detected. Waiting 60 frames.");
