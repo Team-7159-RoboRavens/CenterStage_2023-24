@@ -77,18 +77,20 @@ public class THEArmBM extends AbstractButtonMap {
             garageServoToggleTime = et.time();
         }
 
-        if(opMode.gamepad2.y){
-            //Y - Elbow and Wrist to Backboard
-            robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
-            robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
-        }else if(opMode.gamepad2.b){
-            //B - Elbow to slightly lifted position
-            robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
-            robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
-        }else if(opMode.gamepad2.a){
-            //A - Elbow and wrist to Load position
-            robot.elbowServo.setPosition(CenterStageRobot.elbowLoadPosition);
-            robot.wristServo.setPosition(CenterStageRobot.wristLoadPosition);
+        if(!clawOpen) {
+            if (opMode.gamepad2.y) {
+                //Y - Elbow and Wrist to Backboard
+                robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
+                robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
+            } else if (opMode.gamepad2.b) {
+                //B - Elbow to slightly lifted position
+                robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+                robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
+            } else if (opMode.gamepad2.a) {
+                //A - Elbow and wrist to Load position
+                robot.elbowServo.setPosition(CenterStageRobot.elbowLoadPosition);
+                robot.wristServo.setPosition(CenterStageRobot.wristLoadPosition);
+            }
         }
 
         //DPad - Plane Servo

@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public final class ThreeDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double PAR0_Y_TICKS = -9020.868486623225;
-        public double PAR1_Y_TICKS = 8697.84844153232;
+        public double PAR0_Y_TICKS = -9020.868486623225; //LEFT
+        public double PAR1_Y_TICKS = 8697.84844153232; //RIGHT
         public double PERP_X_TICKS = -8344.314726590464;
     }
 

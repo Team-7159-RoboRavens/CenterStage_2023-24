@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.tuning;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 // TODO: remove Actions from the core module?
 import com.acmerobotics.roadrunner.Vector2d;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.BasicRobots.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BasicRobots.TankDrive;
 
+@Config
 public final class ManualFeedbackTuner extends LinearOpMode {
     public static double DISTANCE = 64;
     public static double ANGLE_DEGREES = 90;

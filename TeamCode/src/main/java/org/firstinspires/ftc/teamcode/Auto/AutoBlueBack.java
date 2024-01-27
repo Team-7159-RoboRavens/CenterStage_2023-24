@@ -43,8 +43,9 @@ public class AutoBlueBack extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(12, 36), Math.toRadians(270))
-                            .strafeTo(new Vector2d(31, 36))
+                            .strafeTo(new Vector2d(12, 36))
+                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(30, 36))
                             .build());
         } else if (placementPosition == 2) {
             //Center
@@ -67,14 +68,14 @@ public class AutoBlueBack extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(48, 36), Math.PI)
-                            .strafeTo(new Vector2d(53, 39))
+                            .strafeTo(new Vector2d(53, 37))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(48, 36), Math.PI)
-                            .strafeTo(new Vector2d(53, 33))
+                            .strafeTo(new Vector2d(53, 32))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 3) {
