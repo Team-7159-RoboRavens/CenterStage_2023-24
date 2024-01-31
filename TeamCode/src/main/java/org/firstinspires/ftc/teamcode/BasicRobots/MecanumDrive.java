@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.ButtonMaps.MotorPowers;
 import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.PoseMessage;
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
+import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -56,14 +57,14 @@ public class MecanumDrive {
     public static class Params {
         //Don't change these after tuning
         // drive model parameters
-        public double inPerTick = 0.0005335331;
-        public double lateralInPerTick = 0.0005;
-        public double trackWidthTicks = 26708.449894169036; //check
+        public double inPerTick = 0;
+        public double lateralInPerTick = 0;
+        public double trackWidthTicks = 0;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.0100794408890854;
-        public double kV = 0.00010836953157124216;
-        public double kA = 0.000017;
+        public double kS = 0;
+        public double kV = 0;
+        public double kA = 0;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -219,7 +220,7 @@ public class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
 
         this.opMode = null;
 
