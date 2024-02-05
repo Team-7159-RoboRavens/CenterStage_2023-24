@@ -49,8 +49,8 @@ public final class ManualFeedbackTuner extends LinearOpMode {
                 if(mode == 1){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(DISTANCE)
-                                    .lineToX(0)
+                                    .strafeTo(new Vector2d(DISTANCE, 0))
+                                    .strafeTo(new Vector2d(0, 0))
                                     .build());
                 }else if(mode == 2){
                     Actions.runBlocking(
