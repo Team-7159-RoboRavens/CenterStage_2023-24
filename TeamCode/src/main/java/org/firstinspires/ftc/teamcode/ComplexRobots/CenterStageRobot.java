@@ -41,7 +41,7 @@ public class CenterStageRobot extends MecanumDrive {
 
     //Camera Positions
     public static int leftPlacementLowerBound = 0;
-    public static int leftPlacementUpperBound = 150;
+    public static int leftPlacementUpperBound = 170;
     public static int centerPlacementLowerBound = 400;
     public static int centerPlacementUpperBound = 640;
     public static int rightPlacementLowerBound = 500;

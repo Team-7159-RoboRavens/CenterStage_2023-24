@@ -57,13 +57,13 @@ public class MecanumDrive {
     public static class Params {
         //Don't change these after tuning
         // drive model parameters
-        public double inPerTick = 0.0005304082;
-        public double lateralInPerTick = 0.000453814722754763;
-        public double trackWidthTicks = 25111.588788506368;
+        public double inPerTick = 0.0005354215;
+        public double lateralInPerTick = 0.0004163752233829954;
+        public double trackWidthTicks = 25765.68405697176;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.2294142491024909;
-        public double kV = 0.00010264833648583592;
+        public double kS = 1.596929489316988;
+        public double kV = 0.00009945254759121325;
         public double kA = 0.000015;
 
         // path profile parameters (in inches)
@@ -76,9 +76,9 @@ public class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 6;
-        public double lateralGain = 2;
-        public double headingGain = 0.5; // shared with turn
+        public double axialGain = 5;
+        public double lateralGain = 3;
+        public double headingGain = 1.5; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -220,7 +220,7 @@ public class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
 
         this.opMode = null;
 

@@ -33,7 +33,7 @@ public class MachineVision {
                 .setModelLabels(labels)
                 .build();
         visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
+                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod ,new PositionMarkers());
 //        visionPortal.stopStreaming();
     }
 
@@ -56,16 +56,24 @@ public class MachineVision {
             }
             for (Recognition recognition : currentRecognitions) {
                 double x = (recognition.getLeft() + recognition.getRight()) / 2;
-//                double y = (recognition.getTop() + recognition.getBottom()) / 2;
+                if(recognition.getWidth() > 300){
+                    opMode.telemetry.addLine(recognition.getLabel() + " at " + x + ": too wide! width: "+recognition.getWidth());
+                    continue;
+                }
                 if(recognition.getLabel().equals("blueElement") || recognition.getLabel().equals("redElement")){
+
                     if(x > CenterStageRobot.leftPlacementLowerBound && x < CenterStageRobot.leftPlacementUpperBound){
+                        opMode.telemetry.addLine(recognition.getLabel() + " at " + x + " in range for LEFT.");
                         framesWithoutDetection = 0;
                         //LEFT
                         placementPosition = 1;
                     }else if(x > CenterStageRobot.centerPlacementLowerBound && x < CenterStageRobot.centerPlacementUpperBound){
+                        opMode.telemetry.addLine(recognition.getLabel() + " at " + x + " in range for CENTER.");
                         framesWithoutDetection = 0;
                         //CENTER
                         placementPosition = 2;
+                    }else{
+                        opMode.telemetry.addLine(recognition.getLabel() + " at " + x + ": out of range!");
                     }
                 }
             }
