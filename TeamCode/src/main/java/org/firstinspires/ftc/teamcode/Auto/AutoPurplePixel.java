@@ -32,6 +32,7 @@ public class AutoPurplePixel extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .strafeTo(new Vector2d(12, -60))
                             .strafeToLinearHeading(new Vector2d(12, -36), 3 * Math.PI / 2)
                             .strafeTo(new Vector2d(7, -36))
                             .build());
@@ -39,13 +40,14 @@ public class AutoPurplePixel extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-//                            .lineToX(20)
-                            .strafeToLinearHeading(new Vector2d(12, -31), Math.PI)
+                            .strafeTo(new Vector2d(12, -60))
+                            .strafeToLinearHeading(new Vector2d(12, -32), Math.PI)
                             .build());
         } else if (placementPosition == 3) {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .strafeTo(new Vector2d(12, -60))
                             .strafeTo(new Vector2d(12, -36))
                             .strafeToLinearHeading(new Vector2d(17, -36), Math.PI / 2)
                             .build());

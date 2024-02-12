@@ -42,6 +42,7 @@ public class AutoRedBack extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .strafeTo(new Vector2d(12, -60))
                             .strafeToLinearHeading(new Vector2d(12, -36), 3 * Math.PI / 2)
                             .strafeTo(new Vector2d(7, -36))
                             .build());
@@ -49,25 +50,32 @@ public class AutoRedBack extends LinearOpMode {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-//                            .lineToX(20)
-                            .strafeToLinearHeading(new Vector2d(12, -31), Math.PI)
+                            .strafeTo(new Vector2d(12, -60))
+                            .strafeToLinearHeading(new Vector2d(12, -32), Math.PI)
                             .build());
         } else if (placementPosition == 3) {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(12, -36))
-                            .strafeToLinearHeading(new Vector2d(33, -36), 3 * Math.PI / 2)
+                            .strafeTo(new Vector2d(36, -60))
+                            .strafeTo(new Vector2d(36, -36))
+                            .strafeToLinearHeading(new Vector2d(31, -36), 3 * Math.PI / 2)
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
-        sleep(500); /* wait for pixel to fall */
+        sleep(700); /* wait for pixel to fall */
+        if(placementPosition == 2){
+            Actions.runBlocking(
+                    robot.actionBuilder(robot.pose)
+                            .strafeTo(new Vector2d(12, 36))
+                            .build());
+        }
         /*Place on Backboard*/
         if (placementPosition == 1) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToSplineHeading(new Vector2d(48, -36), Math.PI)
-                            .strafeTo(new Vector2d(53, -28))
+                            .strafeTo(new Vector2d(53, -29))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 2) {
@@ -75,7 +83,7 @@ public class AutoRedBack extends LinearOpMode {
                     robot.actionBuilder(robot.pose)
 
                             .strafeToSplineHeading(new Vector2d(48, -36), Math.PI)
-                            .strafeTo(new Vector2d(53.5, -41))
+                            .strafeTo(new Vector2d(53.5, -38))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 3) {
@@ -98,7 +106,7 @@ public class AutoRedBack extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(50, -12))
+                            .strafeTo(new Vector2d(47, -12))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
@@ -107,7 +115,7 @@ public class AutoRedBack extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(50, -60))
+                            .strafeTo(new Vector2d(47, -60))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));

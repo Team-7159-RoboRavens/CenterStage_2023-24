@@ -43,46 +43,54 @@ public class AutoBlueBack extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(12, 36))
-                            .turnTo(3*Math.PI/2)
-                            .strafeTo(new Vector2d(30, 36))
+                            .strafeTo(new Vector2d(36, 60))
+                            .strafeToLinearHeading(new Vector2d(36, 36), 3*Math.PI/2)
+                            .strafeTo(new Vector2d(31, 36))
                             .build());
         } else if (placementPosition == 2) {
             //Center
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToSplineHeading(new Vector2d(12, 30), 0)
+                            .strafeTo(new Vector2d(12, 60))
+                            .strafeToSplineHeading(new Vector2d(12, 33), 0)
                             .build());
         } else if (placementPosition == 3) {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .strafeTo(new Vector2d(12, 60))
                             .strafeToLinearHeading(new Vector2d(12, 36), 3 * Math.PI / 2)
                             .strafeTo(new Vector2d(6, 36))
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
         sleep(500); /* wait for pixel to fall */
+        if(placementPosition == 2){
+            Actions.runBlocking(
+                    robot.actionBuilder(robot.pose)
+                            .strafeTo(new Vector2d(12, 36))
+                            .build());
+        }
         /*Place on Backboard*/
         if (placementPosition == 1) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(48, 36), Math.PI)
-                            .strafeTo(new Vector2d(53, 37))
+                            .strafeTo(new Vector2d(53, 46))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(48, 36), Math.PI)
-                            .strafeTo(new Vector2d(53, 32))
+                            .strafeTo(new Vector2d(53, 34))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToLinearHeading(new Vector2d(48, 36), Math.PI)
-                            .strafeTo(new Vector2d(53, 27))
+                            .strafeTo(new Vector2d(53, 26))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }
@@ -90,7 +98,7 @@ public class AutoBlueBack extends LinearOpMode {
         robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
         sleep(2500);
         robot.clawServo.setPosition(1); /* place the pixel */
-        sleep(500); /* wait for pixel to drop */
+        sleep(700); /* wait for pixel to drop */
         //Reset
         robot.clawServo.setPosition(0);
 
@@ -100,7 +108,7 @@ public class AutoBlueBack extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(50, 60))
+                            .strafeTo(new Vector2d(47, 60))
                             .build(),
                     robot.setSlideHeightAction(-3)
             ));
@@ -109,7 +117,7 @@ public class AutoBlueBack extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(50, 12))
+                            .strafeTo(new Vector2d(47, 12))
                             .build(),
                     robot.setSlideHeightAction(-3)
             ));
