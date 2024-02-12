@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.ComplexRobots.CenterStageRobot;
 public class EitanNadavDriveBM extends AbstractButtonMap {
     //TODO: Change back to final when done with dash
     public static double triggerMultipler = 0.9;
-    public static double fastStrafePower = 0.65;
+    public static double fastStrafePower = 0.75;
     public static double slowStrafePower = 0.35;
 
     private boolean buttonPressed = false;

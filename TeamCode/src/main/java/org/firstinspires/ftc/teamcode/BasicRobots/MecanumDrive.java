@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.ButtonMaps.MotorPowers;
 import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.PoseMessage;
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
+import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -56,14 +57,14 @@ public class MecanumDrive {
     public static class Params {
         //Don't change these after tuning
         // drive model parameters
-        public double inPerTick = 0.00172749;
-        public double lateralInPerTick = -0.0017811267874248895;
-        public double trackWidthTicks = 19369.6603819895;
+        public double inPerTick = 0.0005354215;
+        public double lateralInPerTick = 0.0004163752233829954;
+        public double trackWidthTicks = 25765.68405697176;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.3509863635593407;
-        public double kV = 0.00013556769103268177;
-        public double kA = 0;
+        public double kS = 1.596929489316988;
+        public double kV = 0.00009945254759121325;
+        public double kA = 0.000015;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -75,9 +76,9 @@ public class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 5;
+        public double lateralGain = 3;
+        public double headingGain = 1.5; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -214,7 +215,7 @@ public class MecanumDrive {
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
@@ -461,7 +462,7 @@ public class MecanumDrive {
         c.strokePolyline(xPoints, yPoints);
     }
 
-    private static void drawRobot(Canvas c, Pose2d t) {
+    public static void drawRobot(Canvas c, Pose2d t) {
         final double ROBOT_RADIUS = 9;
 
         c.setStrokeWidth(1);

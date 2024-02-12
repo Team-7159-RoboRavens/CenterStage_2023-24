@@ -31,13 +31,19 @@ public class CenterStageRobot extends MecanumDrive {
     public final Servo purplePixelServo;
 
     //Constants
-    public static int slidesRaisePosition = 300;
+    public static int slidesRaisePosition = 450;
+    public static double elbowBackboardPosition = 0.2;
+    public static double elbowRaisePosition = 0.9;
+    public static double elbowLoadPosition = 0.96;
+    public static double wristBackboardPosition = 0.76;
+    public static double wristCollapsePosition = 0.9;
+    public static double wristLoadPosition = 0;
 
     //Camera Positions
-    public static int leftPlacementLowerBound = 35;
-    public static int leftPlacementUpperBound = 65;
-    public static int centerPlacementLowerBound = 320;
-    public static int centerPlacementUpperBound = 350;
+    public static int leftPlacementLowerBound = 0;
+    public static int leftPlacementUpperBound = 170;
+    public static int centerPlacementLowerBound = 400;
+    public static int centerPlacementUpperBound = 640;
     public static int rightPlacementLowerBound = 500;
     public static int rightPlacementUpperBound = 520;
 
@@ -53,8 +59,8 @@ public class CenterStageRobot extends MecanumDrive {
         linearSlidesMotor2.setDirection(DcMotor.Direction.FORWARD);
         linearSlidesMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlidesMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlidesMotor1.setTargetPositionTolerance(5);
-        linearSlidesMotor2.setTargetPositionTolerance(5);
+        linearSlidesMotor1.setTargetPositionTolerance(15);
+        linearSlidesMotor2.setTargetPositionTolerance(15);
         linearSlidesMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlidesMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -68,7 +74,7 @@ public class CenterStageRobot extends MecanumDrive {
 
         //Initialize Wrist Servo
         wristServo = hardwareMap.get(Servo.class, "wristServo");
-        wristServo.scaleRange(0,0.6);
+        wristServo.scaleRange(0.14,0.62);
         //Force to be in the right place
         wristServo.setPosition(1);
 
@@ -78,12 +84,12 @@ public class CenterStageRobot extends MecanumDrive {
         elbowServo.scaleRange(0,1);
         //Force to be in the right place
         //TODO: find number
-        elbowServo.setPosition(0.89);
+        elbowServo.setPosition(1);
 
         //Initialize Garage Door Servo
         garageDoorServo = hardwareMap.get(Servo.class, "garageDoorServo");
         //TODO: find numbers
-        garageDoorServo.scaleRange(0.24,0.75);
+        garageDoorServo.scaleRange(0.19,0.72);
         //Force to be in the right place
         //TODO: find number
         garageDoorServo.setPosition(0);
@@ -113,25 +119,67 @@ public class CenterStageRobot extends MecanumDrive {
     class SlideHeight implements Action {
         private boolean initialized;
         private int targetPosition;
+        private boolean raise;
         SlideHeight(int targetPosition){
             initialized = false;
             this.targetPosition = targetPosition;
+            if(linearSlidesMotor1.getCurrentPosition() < targetPosition) raise = true;
+            else raise = false;
         }
 
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(!initialized){
-                linearSlidesMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlidesMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlidesMotor1.setTargetPosition(this.targetPosition);
-                linearSlidesMotor2.setTargetPosition(this.targetPosition);
-                linearSlidesMotor1.setPower(0.5);
-                linearSlidesMotor1.setPower(0.5);
+                if(raise){
+                    linearSlidesMotor1.setPower(0.5);
+                    linearSlidesMotor1.setPower(0.5);
+                }else{
+                    linearSlidesMotor1.setPower(-0.3);
+                    linearSlidesMotor1.setPower(-0.3);
+                }
                 initialized = true;
                 return true;
+            }else{
+                int avgCurrentPosition = (linearSlidesMotor1.getCurrentPosition()+linearSlidesMotor2.getCurrentPosition())/2;
+                int difference;
+                if(raise){
+                    difference = targetPosition - avgCurrentPosition;
+                    if(difference <= 7 && difference >= -7){
+                        //STOP
+                        linearSlidesMotor1.setPower(0);
+                        linearSlidesMotor2.setPower(0);
+                        //Exit out, we're done
+                        return false;
+                    }else if (difference < -7) {
+                        //Reverse
+                        linearSlidesMotor1.setPower(-0.15);
+                        linearSlidesMotor2.setPower(-0.15);
+                    }else if(difference < 100 && difference > 7){
+                        //Soft stop
+                        linearSlidesMotor1.setPower(0.25);
+                        linearSlidesMotor2.setPower(0.25);
+                    }
+                }else {
+                    difference = avgCurrentPosition - targetPosition;
+                    if (difference <= 7 && difference >= -7) {
+                        //STOP
+                        linearSlidesMotor1.setPower(0);
+                        linearSlidesMotor2.setPower(0);
+                        //Exit out, we're done
+                        return false;
+                    } else if (difference < -7) {
+                        //Reverse
+                        linearSlidesMotor1.setPower(0.25);
+                        linearSlidesMotor2.setPower(0.25);
+                    } else if (difference < 100 && difference > 7) {
+                        //Soft stop
+                        linearSlidesMotor1.setPower(-0.15);
+                        linearSlidesMotor2.setPower(-0.15);
+                    }
+                }
+                return true;
             }
-            return linearSlidesMotor1.isBusy();
         }
     }
 }

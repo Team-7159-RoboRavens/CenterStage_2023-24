@@ -47,9 +47,12 @@ public class VisionTest extends LinearOpMode {
      * Initialize the TensorFlow Object Detection processor.
      */
     private void initTfod() {
-
+        String[] labels = {"blueElement", "redElement"};
         // Create the TensorFlow processor the easy way.
-        tfod = TfodProcessor.easyCreateWithDefaults();
+        tfod = new TfodProcessor.Builder()
+                .setModelAssetName("CustomElements.tflite")
+                .setModelLabels(labels)
+                .build();
 
         // Create the vision portal the easy way.
         visionPortal = VisionPortal.easyCreateWithDefaults(
