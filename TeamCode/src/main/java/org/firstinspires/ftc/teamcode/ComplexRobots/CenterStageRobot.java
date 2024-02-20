@@ -29,6 +29,7 @@ public class CenterStageRobot extends MecanumDrive {
     public final Servo garageDoorServo;
     public final Servo airplaneServo;
     public final Servo purplePixelServo;
+    public final Servo purplePixelServo2;
 
     //Constants
     public static int slidesRaisePosition = 450;
@@ -109,6 +110,13 @@ public class CenterStageRobot extends MecanumDrive {
         //Force to be in the right place
         //TODO: find number
         purplePixelServo.setPosition(1);
+        //Initialize Airplane Servo
+        purplePixelServo2 = hardwareMap.get(Servo.class, "purplePixelServo2");
+        //TODO: find numbers
+        purplePixelServo2.scaleRange(0,0.5);
+        //Force to be in the right place
+        //TODO: find number
+        purplePixelServo2.setPosition(0);
     }
 
     //TODO: Linear slide helper methods for auto (later)

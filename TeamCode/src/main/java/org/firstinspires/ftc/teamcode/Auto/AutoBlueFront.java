@@ -51,7 +51,7 @@ public class AutoBlueFront extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(-36, 38))
-                            .strafeToLinearHeading(new Vector2d(-30, 38), Math.PI / 2)
+                            .strafeToLinearHeading(new Vector2d(-30, 36), Math.PI / 2)
                             .build());
         } else if (placementPosition == 2) {
             //Center
@@ -63,11 +63,12 @@ public class AutoBlueFront extends LinearOpMode {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36, 38), 3*Math.PI / 2)
-                            .strafeTo(new Vector2d(-40, 38))
+                            .strafeTo(new Vector2d(-60, 60))
+                            .strafeToLinearHeading(new Vector2d(-60, 36), Math.PI / 2)
+                            .strafeTo(new Vector2d(-40, 36))
                             .build());
         }
-        robot.purplePixelServo.setPosition(0);
+        robot.purplePixelServo2.setPosition(0);
         sleep(500); /* wait for pixel to fall */
         Actions.runBlocking(
                 robot.actionBuilder(robot.pose)

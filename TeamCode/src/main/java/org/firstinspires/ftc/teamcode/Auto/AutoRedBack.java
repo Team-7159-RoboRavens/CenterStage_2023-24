@@ -38,6 +38,7 @@ public class AutoRedBack extends LinearOpMode {
         robot.garageDoorServo.setPosition(1);
         sleep(200);
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
+        //Purple Pixel
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(
