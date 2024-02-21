@@ -125,6 +125,6 @@ public class AutoRedBack extends LinearOpMode {
 
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
         robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
-        sleep(1000);
+        sleep(1500);
     }
 }
