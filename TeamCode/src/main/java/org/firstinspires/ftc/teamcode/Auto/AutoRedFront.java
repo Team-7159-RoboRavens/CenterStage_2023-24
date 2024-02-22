@@ -85,6 +85,7 @@ public class AutoRedFront extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(-36, -36))
+                            .turnTo(0)
                             .build());
         }
         /* DRIVE TO BACKSTAGE */

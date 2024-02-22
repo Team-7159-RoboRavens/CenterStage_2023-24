@@ -20,9 +20,9 @@ import java.util.List;
 @Disabled
 public class AutoBlueFront extends LinearOpMode {
     /* CONFIG */
-    private final boolean goUnderLeftTruss = false;
+    private final boolean goUnderStageDoor = true;
     private final double delayAtTrussSeconds = 0;
-    private final boolean parkLeft = false;
+    private final boolean parkLeft = true;
 
     /* GLOBAL VARIABLES */
     CenterStageRobot robot;
@@ -33,10 +33,11 @@ public class AutoBlueFront extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //TODO: literally convert everything to blue from here down
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-33,62),Math.PI/2), this);
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-39, -62), 3 * Math.PI / 2), this);
         machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
         //Go find the position
@@ -44,112 +45,125 @@ public class AutoBlueFront extends LinearOpMode {
         robot.garageDoorServo.setPosition(1);
         sleep(200);
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
-        /* PIXEL ON SPIKE STRIP */
-        ///eeeee
+        //Purple Pixel
         if (placementPosition == 1) {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, 38))
-                            .strafeToLinearHeading(new Vector2d(-30, 36), Math.PI / 2)
+                            .strafeTo(new Vector2d(-36, -60))
+                            .strafeToLinearHeading(new Vector2d(-36, -36), 3 * Math.PI / 2)
+                            .strafeTo(new Vector2d(-41, -36))
                             .build());
         } else if (placementPosition == 2) {
             //Center
-            Actions.runBlocking(
-                    robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36, 32), 0)
-                            .build());
+            if(goUnderStageDoor){
+                //Prepare for Stage Door - go past
+                Actions.runBlocking(
+                        robot.actionBuilder(robot.pose)
+                                .strafeTo(new Vector2d(-56, -60))
+                                .strafeToLinearHeading(new Vector2d(-56, -12), 0)
+                                .strafeTo(new Vector2d(-36, -12))
+                                .strafeTo(new Vector2d(-36, -20))
+                                .build());
+            }else{
+                Actions.runBlocking(
+                        robot.actionBuilder(robot.pose)
+                                .strafeTo(new Vector2d(-36, -60))
+                                .strafeToLinearHeading(new Vector2d(-36, -32), Math.PI)
+                                .build());
+            }
+
         } else if (placementPosition == 3) {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-60, 60))
-                            .strafeToLinearHeading(new Vector2d(-60, 36), Math.PI / 2)
-                            .strafeTo(new Vector2d(-40, 36))
+                            .strafeTo(new Vector2d(-36, -60))
+                            .strafeToLinearHeading(new Vector2d(-36, -36), Math.PI / 2)
+                            .strafeTo(new Vector2d(-31, -36))
                             .build());
         }
-        robot.purplePixelServo2.setPosition(0);
-        sleep(500); /* wait for pixel to fall */
-        Actions.runBlocking(
-                robot.actionBuilder(robot.pose)
-                        .strafeTo(new Vector2d(-36, 55))
-                        .build());
-        Actions.runBlocking(
-                robot.actionBuilder(robot.pose)
-                        .strafeTo(new Vector2d(-36, 36))
-                        .build());
-        /* DRIVE TO BACKSTAGE */
-        if(goUnderLeftTruss){
-            //Under the Left (Nearest Wall) Truss
+        robot.purplePixelServo.setPosition(0);
+        sleep(700); /* wait for pixel to fall */
+        if(placementPosition == 1 || placementPosition == 3){
+            //Drive back to the center if we were on an edge
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .splineTo(new Vector2d(-24,60), Math.PI/2)
-                            .strafeTo(new Vector2d(-12,60))
-                            .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(48, 60))
-                            .afterDisp(64, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
-                            .strafeTo(new Vector2d(48, 36))
+                            .strafeTo(new Vector2d(-36, -36))
+                            .turnTo(0)
                             .build());
-        }else{
-            //Under the Right (Nearest Stage Door) Truss
+        }
+        /* DRIVE TO BACKSTAGE */
+        if(goUnderStageDoor){
+            //Under the Stage Door
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-12,36), 0)
+                            .strafeToLinearHeading(new Vector2d(-36,-12), 0)
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(48, 36))
+                            .strafeTo(new Vector2d(12, -13))
+                            .strafeTo(new Vector2d(48, -13))
+                            .strafeToLinearHeading(new Vector2d(48, -36), Math.PI)
                             .afterDisp(48, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
+        }else{
+            //Under the Nearest Wall Truss
+            Actions.runBlocking(
+                    robot.actionBuilder(robot.pose)
+                            .strafeToLinearHeading(new Vector2d(-36,-60), Math.PI)
+                            .strafeTo(new Vector2d(-12,-60))
+                            .waitSeconds(delayAtTrussSeconds)
+                            .strafeTo(new Vector2d(48, -60))
+                            .afterDisp(64, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .strafeTo(new Vector2d(48, -36))
+                            .build());
         }
 
-        robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
-        robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
-
-       /*Place on Backboard*/
+        /*Place on Backboard*/
         if (placementPosition == 1) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53, 50))
+                            .strafeTo(new Vector2d(53.5, -28))
                             .build());
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53, 41))
+                            .strafeTo(new Vector2d(53.5, -36.5))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53, 30))
+                            .strafeTo(new Vector2d(53.5, -49))
                             .build());
         }
-        sleep(500);
+        robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
+        robot.wristServo.setPosition(CenterStageRobot.wristBackboardPosition);
+        sleep(2500);
         robot.clawServo.setPosition(1); /* place the pixel */
         sleep(500); /* wait for pixel to drop */
-        //Reset
         robot.clawServo.setPosition(0);
-
-
-        //Park in blue backstage
-        if(parkLeft){
+        //Park in red backstage
+        if (parkLeft) {
             //Park on Left Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(50, 60))
+                            .strafeTo(new Vector2d(47, -12))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
-        }else{
+        } else {
             //Park on Right Side
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(50, 12))
+                            .strafeTo(new Vector2d(47, -60))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
         }
+        //Reset
+
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
         robot.wristServo.setPosition(CenterStageRobot.wristCollapsePosition);
-        sleep(1000);
+        sleep(1500);
     }
 }
