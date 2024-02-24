@@ -46,9 +46,8 @@ public class AutoRedFront extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, -60))
-                            .strafeToLinearHeading(new Vector2d(-36, -36), 3 * Math.PI / 2)
-                            .strafeTo(new Vector2d(-41, -36))
+                            .strafeToLinearHeading(new Vector2d(-50,  -45), Math.PI)
+                            .strafeTo(new Vector2d(-50, -20))
                             .build());
         } else if (placementPosition == 2) {
             //Center
@@ -56,10 +55,8 @@ public class AutoRedFront extends LinearOpMode {
                 //Prepare for Stage Door - go past
                 Actions.runBlocking(
                         robot.actionBuilder(robot.pose)
-                                .strafeTo(new Vector2d(-56, -60))
-                                .strafeToLinearHeading(new Vector2d(-56, -12), 0)
-                                .strafeTo(new Vector2d(-36, -12))
-                                .strafeTo(new Vector2d(-36, -20))
+                                .strafeToLinearHeading(new Vector2d(-36, -36), Math.PI)
+                                .strafeTo(new Vector2d(-36, -19))
                                 .build());
             }else{
                 Actions.runBlocking(
@@ -73,19 +70,18 @@ public class AutoRedFront extends LinearOpMode {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, -60))
-                            .strafeToLinearHeading(new Vector2d(-36, -36), Math.PI / 2)
-                            .strafeTo(new Vector2d(-31, -36))
+                            .strafeToLinearHeading(new Vector2d(-36, -36), 3*Math.PI / 2)
+                            .strafeTo(new Vector2d(-29, -36))
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
         sleep(700); /* wait for pixel to fall */
-        if(placementPosition == 1 || placementPosition == 3){
+        if(placementPosition == 3){
             //Drive back to the center if we were on an edge
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(-36, -36))
-                            .turnTo(0)
+                            .turnTo(Math.PI)
                             .build());
         }
         /* DRIVE TO BACKSTAGE */
@@ -93,12 +89,12 @@ public class AutoRedFront extends LinearOpMode {
             //Under the Stage Door
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,-12), 0)
+                            .strafeToLinearHeading(new Vector2d(-36,-12), Math.PI)
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(12, -13))
+                            .strafeTo(new Vector2d(20, -13))
                             .strafeTo(new Vector2d(48, -13))
-                            .strafeToLinearHeading(new Vector2d(48, -36), Math.PI)
-                            .afterDisp(48, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .strafeTo(new Vector2d(48, -36))
+                            .afterDisp(60, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }else{
             //Under the Nearest Wall Truss
