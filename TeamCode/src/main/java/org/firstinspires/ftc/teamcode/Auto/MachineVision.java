@@ -37,19 +37,24 @@ public class MachineVision {
 //        visionPortal.stopStreaming();
     }
 
-    public int run() {
+    public int run(String initText) {
 //        visionPortal.resumeStreaming();
         while(!opMode.isStarted()){
-            opMode.telemetry.addLine("Ready");
+            if(!(visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING)){
+                opMode.telemetry.addLine("Opening Camera Stream, please wait...");
+            }else{
+                opMode.telemetry.addLine(initText);
+            }
             List<Recognition> currentRecognitions = tfod.getRecognitions();
+
             if(currentRecognitions.size() == 0){
                 framesWithoutDetection++;
                 //If we haven't detected anything for 60 frames, assume right
-                if(framesWithoutDetection > 60){
+                if(framesWithoutDetection > 2000){
                     placementPosition = /*3*/ defaultPlacementPosition;
                     opMode.telemetry.addLine("No Objects Detected. Assuming Right.");
                 }else {
-                    opMode.telemetry.addLine("No Objects Detected. Waiting 60 frames.");
+                    opMode.telemetry.addLine("No Objects Detected. Waiting some frames.");
                 }
             }else if(currentRecognitions.size() > 1){
                 opMode.telemetry.addLine("***Multiple Objects Detected***");
@@ -82,5 +87,9 @@ public class MachineVision {
         }
         visionPortal.close();
         return placementPosition;
+    }
+
+    public int run(){
+        return run("Ready.");
     }
 }

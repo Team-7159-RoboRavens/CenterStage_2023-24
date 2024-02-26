@@ -23,9 +23,10 @@ public final class ManualFeedbackTuner extends LinearOpMode {
 
             int mode = 1;
             telemetry.addLine("Select a mode on gamepad 1:");
-            telemetry.addLine("A - Straight forward and back "+DISTANCE+"in. (normal)");
-            telemetry.addLine("B - Strafe left and right "+DISTANCE+"in. (for lateral)");
-            telemetry.addLine("X - Rotate left and right "+ANGLE_DEGREES+" deg (for angular)");
+            telemetry.addLine("A - Straight forward then back "+DISTANCE+"in. (normal)");
+            telemetry.addLine("B - Strafe left then right "+DISTANCE+"in. (for lateral)");
+            telemetry.addLine("X - Rotate left then right "+ANGLE_DEGREES+" deg (for angular)");
+            telemetry.addLine("Y - Rotate right then left "+ANGLE_DEGREES+" deg (for angular)");
             telemetry.update();
             while(opModeInInit() || opModeIsActive()){
                 if(gamepad1.a){
@@ -39,6 +40,10 @@ public final class ManualFeedbackTuner extends LinearOpMode {
                 } else if (gamepad1.x) {
                     mode = 3;
                     telemetry.addLine("Selected mode X");
+                    break;
+                } else if(gamepad1.y){
+                    mode = 4;
+                    telemetry.addLine("Selected mode Y");
                     break;
                 }
             }
@@ -62,6 +67,12 @@ public final class ManualFeedbackTuner extends LinearOpMode {
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .turnTo(Math.toRadians(ANGLE_DEGREES))
+                                    .turnTo(0)
+                                    .build());
+                }else if(mode == 4){
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .turnTo(Math.toRadians(-ANGLE_DEGREES))
                                     .turnTo(0)
                                     .build());
                 }

@@ -113,7 +113,7 @@ public class CenterStageRobot extends MecanumDrive {
         //Initialize Airplane Servo
         purplePixelServo2 = hardwareMap.get(Servo.class, "purplePixelServo2");
         //TODO: find numbers
-        purplePixelServo2.scaleRange(0,0.5);
+        purplePixelServo2.scaleRange(0,0.6);
         //Force to be in the right place
         //TODO: find number
         purplePixelServo2.setPosition(0);

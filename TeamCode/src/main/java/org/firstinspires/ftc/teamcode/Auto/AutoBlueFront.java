@@ -17,12 +17,11 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 @Autonomous(name="Blue - Frontstage")
-@Disabled
 public class AutoBlueFront extends LinearOpMode {
     /* CONFIG */
     private final boolean goUnderStageDoor = true;
     private final double delayAtTrussSeconds = 0;
-    private final boolean parkLeft = true;
+    private final boolean parkLeft = false;
 
     /* GLOBAL VARIABLES */
     CenterStageRobot robot;
@@ -33,15 +32,14 @@ public class AutoBlueFront extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //TODO: literally convert everything to blue from here down
         telemetry.addLine("Initializing, please wait...");
         telemetry.update();
         /* INITIALIZATION */
-        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-39, -62), 3 * Math.PI / 2), this);
+        robot = new CenterStageRobot(hardwareMap, new Pose2d(new Vector2d(-33, 62), Math.PI / 2), this);
         machineVision = new MachineVision(hardwareMap, this);
         /* POSITION IDENTIFICATION */
         //Go find the position
-        placementPosition = machineVision.run();
+        placementPosition = machineVision.run("Blue, Frontstage - READY");
         robot.garageDoorServo.setPosition(1);
         sleep(200);
         robot.elbowServo.setPosition(CenterStageRobot.elbowRaisePosition);
@@ -50,26 +48,25 @@ public class AutoBlueFront extends LinearOpMode {
             //Left
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, -60))
-                            .strafeToLinearHeading(new Vector2d(-36, -36), 3 * Math.PI / 2)
-                            .strafeTo(new Vector2d(-41, -36))
+                            .strafeTo(new Vector2d(-36, 60))
+                            .strafeToLinearHeading(new Vector2d(-36, 36.5), Math.PI/2)
+                            .strafeTo(new Vector2d(-32, 36.5))
                             .build());
+
         } else if (placementPosition == 2) {
             //Center
             if(goUnderStageDoor){
                 //Prepare for Stage Door - go past
                 Actions.runBlocking(
                         robot.actionBuilder(robot.pose)
-                                .strafeTo(new Vector2d(-56, -60))
-                                .strafeToLinearHeading(new Vector2d(-56, -12), 0)
-                                .strafeTo(new Vector2d(-36, -12))
-                                .strafeTo(new Vector2d(-36, -20))
+                                .strafeToLinearHeading(new Vector2d(-36, 36), Math.PI)
+                                .strafeTo(new Vector2d(-36, 19))
                                 .build());
             }else{
                 Actions.runBlocking(
                         robot.actionBuilder(robot.pose)
-                                .strafeTo(new Vector2d(-36, -60))
-                                .strafeToLinearHeading(new Vector2d(-36, -32), Math.PI)
+                                .strafeTo(new Vector2d(-36, 60))
+                                .strafeToLinearHeading(new Vector2d(-36, 32), 0)
                                 .build());
             }
 
@@ -77,43 +74,45 @@ public class AutoBlueFront extends LinearOpMode {
             //Right
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, -60))
-                            .strafeToLinearHeading(new Vector2d(-36, -36), Math.PI / 2)
-                            .strafeTo(new Vector2d(-31, -36))
+                            .strafeTo(new Vector2d(-47,  46.5))
+                            .turnTo(Math.PI)
+                            .strafeTo(new Vector2d(-47, 22))
+                            .strafeTo(new Vector2d(-50, 26))
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
         sleep(700); /* wait for pixel to fall */
-        if(placementPosition == 1 || placementPosition == 3){
+        if(placementPosition == 1){
             //Drive back to the center if we were on an edge
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-36, -36))
-                            .turnTo(0)
+                            .strafeTo(new Vector2d(-37, 36))
+                            .turnTo(Math.PI)
                             .build());
         }
+        //TODO: literally convert everything to blue and correct it from here down
         /* DRIVE TO BACKSTAGE */
         if(goUnderStageDoor){
             //Under the Stage Door
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,-12), 0)
+                            .strafeToLinearHeading(new Vector2d(-36,11), Math.PI)
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(12, -13))
-                            .strafeTo(new Vector2d(48, -13))
-                            .strafeToLinearHeading(new Vector2d(48, -36), Math.PI)
-                            .afterDisp(48, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .strafeTo(new Vector2d(20, 12))
+                            .strafeTo(new Vector2d(48, 12))
+                            .strafeTo(new Vector2d(48, 36))
+                            .afterDisp(60, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }else{
             //Under the Nearest Wall Truss
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,-60), Math.PI)
-                            .strafeTo(new Vector2d(-12,-60))
+                            .strafeToLinearHeading(new Vector2d(-36,60), Math.PI)
+                            .strafeTo(new Vector2d(-12,60))
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(48, -60))
+                            .strafeTo(new Vector2d(48, 60))
                             .afterDisp(64, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
-                            .strafeTo(new Vector2d(48, -36))
+                            .strafeTo(new Vector2d(48, 36))
                             .build());
         }
 
@@ -121,17 +120,17 @@ public class AutoBlueFront extends LinearOpMode {
         if (placementPosition == 1) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53.5, -28))
+                            .strafeTo(new Vector2d(53, 47))
                             .build());
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53.5, -36.5))
+                            .strafeTo(new Vector2d(53, 36))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53.5, -49))
+                            .strafeTo(new Vector2d(53, 31))
                             .build());
         }
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
@@ -146,7 +145,7 @@ public class AutoBlueFront extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(47, -12))
+                            .strafeTo(new Vector2d(50, 60))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
@@ -155,7 +154,7 @@ public class AutoBlueFront extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(47, -60))
+                            .strafeTo(new Vector2d(50, 17))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
