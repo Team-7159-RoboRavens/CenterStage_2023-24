@@ -68,7 +68,7 @@ public class AutoRedBack extends LinearOpMode {
         if(placementPosition == 2){
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(12, 36))
+                            .strafeTo(new Vector2d(12, -36))
                             .build());
         }
         /*Place on Backboard*/

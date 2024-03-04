@@ -50,7 +50,7 @@ public class AutoBlueFront extends LinearOpMode {
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(-36, 60))
                             .strafeToLinearHeading(new Vector2d(-36, 36.5), Math.PI/2)
-                            .strafeTo(new Vector2d(-32, 36.5))
+                            .strafeTo(new Vector2d(-31, 36.5))
                             .build());
 
         } else if (placementPosition == 2) {
@@ -86,7 +86,7 @@ public class AutoBlueFront extends LinearOpMode {
             //Drive back to the center if we were on an edge
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(-37, 36))
+                            .strafeTo(new Vector2d(-40, 36))
                             .turnTo(Math.PI)
                             .build());
         }
