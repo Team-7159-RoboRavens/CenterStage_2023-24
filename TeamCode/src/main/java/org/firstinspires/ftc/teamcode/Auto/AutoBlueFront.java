@@ -87,7 +87,6 @@ public class AutoBlueFront extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(-40, 36))
-                            .turnTo(Math.PI)
                             .build());
         }
         //TODO: literally convert everything to blue and correct it from here down
@@ -96,11 +95,12 @@ public class AutoBlueFront extends LinearOpMode {
             //Under the Stage Door
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,11), Math.PI)
+                            .strafeToLinearHeading(new Vector2d(-36,11), Math.PI/2)
+                            .turnTo(Math.PI)
                             .waitSeconds(delayAtTrussSeconds)
                             .strafeTo(new Vector2d(20, 12))
                             .strafeTo(new Vector2d(48, 12))
-                            .strafeTo(new Vector2d(48, 36))
+//                            .turnTo(Math.PI/2)
                             .afterDisp(60, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }else{
@@ -120,16 +120,25 @@ public class AutoBlueFront extends LinearOpMode {
         if (placementPosition == 1) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(48, 47))
+                            .turnTo(Math.PI)
                             .strafeTo(new Vector2d(53, 47))
                             .build());
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(48, 36))
+                            .turnTo(Math.PI)
                             .strafeTo(new Vector2d(53, 36))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
+                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(48, 31))
+                            .turnTo(Math.PI)
                             .strafeTo(new Vector2d(53, 31))
                             .build());
         }
