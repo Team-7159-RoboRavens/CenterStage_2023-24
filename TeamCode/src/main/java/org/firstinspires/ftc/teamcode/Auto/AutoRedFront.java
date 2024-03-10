@@ -49,7 +49,7 @@ public class AutoRedFront extends LinearOpMode {
                             .strafeTo(new Vector2d(-47,  -46.5))
                             .turnTo(Math.PI)
                             .strafeTo(new Vector2d(-47, -22))
-                            .strafeTo(new Vector2d(-50, -26))
+                            .strafeTo(new Vector2d(-48, -26))
                             .build());
         } else if (placementPosition == 2) {
             //Center
@@ -120,7 +120,7 @@ public class AutoRedFront extends LinearOpMode {
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(53.5, -36.5))
+                            .strafeTo(new Vector2d(53.5, -35.5))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(

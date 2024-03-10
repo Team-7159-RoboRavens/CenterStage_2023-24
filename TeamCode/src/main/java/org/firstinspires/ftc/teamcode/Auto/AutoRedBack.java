@@ -60,7 +60,7 @@ public class AutoRedBack extends LinearOpMode {
                     robot.actionBuilder(robot.pose)
                             .strafeTo(new Vector2d(36, -60))
                             .strafeTo(new Vector2d(36, -36))
-                            .strafeToLinearHeading(new Vector2d(31, -36), 3 * Math.PI / 2)
+                            .strafeToLinearHeading(new Vector2d(29, -36), 3 * Math.PI / 2)
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
@@ -68,7 +68,7 @@ public class AutoRedBack extends LinearOpMode {
         if(placementPosition == 2){
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeTo(new Vector2d(12, -36))
+                            .strafeTo(new Vector2d(12, -38))
                             .build());
         }
         /*Place on Backboard*/
@@ -76,7 +76,7 @@ public class AutoRedBack extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToSplineHeading(new Vector2d(48, -36), Math.PI)
-                            .strafeTo(new Vector2d(53, -29))
+                            .strafeTo(new Vector2d(53, -30.5))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 2) {
@@ -84,14 +84,14 @@ public class AutoRedBack extends LinearOpMode {
                     robot.actionBuilder(robot.pose)
 
                             .strafeToSplineHeading(new Vector2d(48, -36), Math.PI)
-                            .strafeTo(new Vector2d(53.5, -38))
+                            .strafeTo(new Vector2d(53.5, -37))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToSplineHeading(new Vector2d(48, -36), Math.PI)
-                            .strafeTo(new Vector2d(53.5, -49))
+                            .strafeTo(new Vector2d(53.5, -46))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }

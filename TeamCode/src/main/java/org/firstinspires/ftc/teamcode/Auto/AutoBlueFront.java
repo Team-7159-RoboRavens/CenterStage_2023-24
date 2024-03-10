@@ -77,7 +77,7 @@ public class AutoBlueFront extends LinearOpMode {
                             .strafeTo(new Vector2d(-47,  46.5))
                             .turnTo(Math.PI)
                             .strafeTo(new Vector2d(-47, 22))
-                            .strafeTo(new Vector2d(-50, 26))
+                            .strafeTo(new Vector2d(-48.5, 26))
                             .build());
         }
         robot.purplePixelServo.setPosition(0);
@@ -95,13 +95,13 @@ public class AutoBlueFront extends LinearOpMode {
             //Under the Stage Door
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .strafeToLinearHeading(new Vector2d(-36,11), Math.PI/2)
+                            .strafeTo(new Vector2d(-36,11))
                             .turnTo(Math.PI)
                             .waitSeconds(delayAtTrussSeconds)
-                            .strafeTo(new Vector2d(20, 12))
-                            .strafeTo(new Vector2d(48, 12))
+                            .strafeTo(new Vector2d(20, 11))
+                            .strafeTo(new Vector2d(45, 13))
 //                            .turnTo(Math.PI/2)
-                            .afterDisp(60, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
+                            .afterDisp(50, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }else{
             //Under the Nearest Wall Truss
@@ -120,26 +120,26 @@ public class AutoBlueFront extends LinearOpMode {
         if (placementPosition == 1) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .turnTo(3*Math.PI/2)
-                            .strafeTo(new Vector2d(48, 47))
-                            .turnTo(Math.PI)
-                            .strafeTo(new Vector2d(53, 47))
+//                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(45, 50))
+//                            .turnTo(Math.PI)
+                            .strafeTo(new Vector2d(53, 50))
                             .build());
         } else if (placementPosition == 2) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .turnTo(3*Math.PI/2)
-                            .strafeTo(new Vector2d(48, 36))
-                            .turnTo(Math.PI)
-                            .strafeTo(new Vector2d(53, 36))
+//                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(45, 42))
+//                            .turnTo(Math.PI)
+                            .strafeTo(new Vector2d(53, 42))
                             .build());
         } else if (placementPosition == 3) {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
-                            .turnTo(3*Math.PI/2)
-                            .strafeTo(new Vector2d(48, 31))
-                            .turnTo(Math.PI)
-                            .strafeTo(new Vector2d(53, 31))
+//                            .turnTo(3*Math.PI/2)
+                            .strafeTo(new Vector2d(45, 39))
+//                            .turnTo(Math.PI)
+                            .strafeTo(new Vector2d(53, 39))
                             .build());
         }
         robot.elbowServo.setPosition(CenterStageRobot.elbowBackboardPosition);
