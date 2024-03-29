@@ -108,7 +108,7 @@ public class AutoBlueBack extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(47, 60))
+                            .strafeTo(new Vector2d(50, 63))
                             .build(),
                     robot.setSlideHeightAction(-3)
             ));

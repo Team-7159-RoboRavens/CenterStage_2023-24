@@ -91,7 +91,7 @@ public class AutoRedBack extends LinearOpMode {
             Actions.runBlocking(
                     robot.actionBuilder(robot.pose)
                             .strafeToSplineHeading(new Vector2d(48, -36), Math.PI)
-                            .strafeTo(new Vector2d(53.5, -46))
+                            .strafeTo(new Vector2d(53.5, -44.5))
                             .afterTime(0.5, robot.setSlideHeightAction(CenterStageRobot.slidesRaisePosition))
                             .build());
         }
@@ -116,7 +116,7 @@ public class AutoRedBack extends LinearOpMode {
             Actions.runBlocking(new ParallelAction(
                     robot.actionBuilder(robot.pose)
                             .lineToX(45)
-                            .strafeTo(new Vector2d(47, -60))
+                            .strafeTo(new Vector2d(48, -63))
                             .build(),
                     robot.setSlideHeightAction(0)
             ));
